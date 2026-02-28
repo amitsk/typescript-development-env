@@ -29,6 +29,7 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
 - How to integrate LLMs and AI tools into your TypeScript workflow
 - How to bring all these tools together into a cohesive project setup
 - How to apply this TypeScript setup to plain JavaScript projects
+- How to build and deploy serverless functions with AWS Lambda and TypeScript
 
 ## Table of Contents
 
@@ -106,6 +107,11 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
     - How much of this applies to plain JavaScript
     - JSDoc as a lightweight alternative to TypeScript
     - When to use JS vs TS
+
+16. [Chapter 16: AWS Lambda with TypeScript](./16-aws-lambda.md)
+    - Serverless TypeScript with AWS Lambda and `@types/aws-lambda`
+    - AWS SAM for local development, testing, and deployment
+    - Linting with Oxlint and formatting with oxfmt in a Lambda project
 
 ## Prerequisites
 

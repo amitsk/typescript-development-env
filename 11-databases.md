@@ -168,6 +168,10 @@ pnpm drizzle-kit studio     # open a visual database browser at http://localhost
 
 The workflow is: modify `schema.ts` → run `generate` → review the generated SQL → run `migrate`. The generated SQL files are committed to version control, giving you a full history of every schema change.
 
+### Real-World Example
+
+The [js-db-crud / FastifyV2](https://github.com/amitsk/js-db-crud/tree/main/FastifyV2) project shows a complete Fastify + Drizzle integration in TypeScript, demonstrating the schema definition, CRUD routes, and migration workflow described in this section.
+
 ---
 
 ## Prisma
@@ -405,9 +409,136 @@ This is a deliberate design choice: Kysely keeps its scope narrow so you can com
 
 ---
 
+## DynamoDB — Serverless NoSQL with AWS
+
+[DynamoDB](https://aws.amazon.com/dynamodb/) is Amazon's fully managed NoSQL database service. Unlike the relational databases covered above, DynamoDB is a **key-value and document store** — there is no SQL, no fixed schema, and no JOIN operations. Instead, you design your data model around your access patterns from the start.
+
+DynamoDB is a natural fit for **serverless architectures** (covered in [Chapter 16](./16-aws-lambda.md)) because it scales automatically, charges per request rather than per persistent connection, and handles bursty traffic without pre-provisioning capacity. If you are building AWS Lambda functions, DynamoDB is often the database of choice.
+
+### Installation
+
+The AWS SDK v3 provides the DynamoDB client. `@aws-sdk/lib-dynamodb` adds a `DynamoDBDocumentClient` that automatically marshals JavaScript objects to and from DynamoDB's internal format:
+
+```bash
+pnpm add @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb
+```
+
+### Setting Up the Client
+
+```typescript
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+
+const client = new DynamoDBClient({
+  region: process.env.AWS_REGION ?? 'us-east-1',
+});
+
+// DocumentClient handles marshalling JavaScript objects automatically
+export const ddb = DynamoDBDocumentClient.from(client);
+```
+
+When running locally (with AWS SAM or a local DynamoDB Docker container), point the endpoint at localhost:
+
+```typescript
+const client = new DynamoDBClient({
+  region: 'us-east-1',
+  endpoint: process.env.DYNAMODB_ENDPOINT, // e.g. 'http://localhost:8000'
+});
+```
+
+### Type-Safe CRUD
+
+DynamoDB has no TypeScript schema — you define your own interfaces and use them to type reads and writes. A common pattern is the **single-table design** where one table holds multiple entity types, distinguished by key prefixes:
+
+```typescript
+import {
+  PutCommand,
+  GetCommand,
+  QueryCommand,
+  DeleteCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
+import { ddb } from './db';
+
+const TABLE_NAME = process.env.TABLE_NAME ?? 'MyAppTable';
+
+// Define your entity types
+interface User {
+  PK: string;        // Partition key, e.g. 'USER#alice'
+  SK: string;        // Sort key, e.g. 'PROFILE'
+  name: string;
+  email: string;
+  createdAt: string; // ISO timestamp
+}
+
+// Insert or overwrite a user
+async function putUser(user: User): Promise<void> {
+  await ddb.send(new PutCommand({
+    TableName: TABLE_NAME,
+    Item: user,
+  }));
+}
+
+// Get a user by their ID
+async function getUser(userId: string): Promise<User | undefined> {
+  const result = await ddb.send(new GetCommand({
+    TableName: TABLE_NAME,
+    Key: { PK: `USER#${userId}`, SK: 'PROFILE' },
+  }));
+  return result.Item as User | undefined;
+}
+
+// Query all items with a given partition key (e.g. all records for a user)
+async function getUserItems(userId: string): Promise<User[]> {
+  const result = await ddb.send(new QueryCommand({
+    TableName: TABLE_NAME,
+    KeyConditionExpression: 'PK = :pk',
+    ExpressionAttributeValues: { ':pk': `USER#${userId}` },
+  }));
+  return (result.Items ?? []) as User[];
+}
+
+// Update specific fields without overwriting the whole item
+async function updateUserName(userId: string, name: string): Promise<void> {
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE_NAME,
+    Key: { PK: `USER#${userId}`, SK: 'PROFILE' },
+    UpdateExpression: 'SET #n = :name',
+    ExpressionAttributeNames: { '#n': 'name' }, // 'name' is a reserved word
+    ExpressionAttributeValues: { ':name': name },
+  }));
+}
+
+// Delete a user
+async function deleteUser(userId: string): Promise<void> {
+  await ddb.send(new DeleteCommand({
+    TableName: TABLE_NAME,
+    Key: { PK: `USER#${userId}`, SK: 'PROFILE' },
+  }));
+}
+```
+
+The `PK`/`SK` pattern with entity-type prefixes (`USER#`, `POST#`, `ORDER#`) is the standard single-table design approach — it lets one table store many entity types efficiently.
+
+### Real-World Example
+
+The [fastify-ddb](https://github.com/amitsk/fastify-ddb) project demonstrates a complete Fastify + DynamoDB integration in TypeScript, covering table setup, DocumentClient usage, and REST route handlers backed by DynamoDB queries.
+
+### When to Use DynamoDB
+
+| Factor | DynamoDB is a good fit | DynamoDB is not a good fit |
+|--------|------------------------|---------------------------|
+| Architecture | Serverless, event-driven, bursty traffic | Long-running servers with persistent connections |
+| Scale | High read/write throughput, auto-scaling | Small app with predictable, low traffic |
+| Query style | Key-based lookups, range queries | Complex JOINs across many related entity types |
+| Infrastructure | Already on AWS | Vendor-neutral or self-hosted deployments |
+| Schema | Flexible, evolving document structure | Highly relational data with many foreign keys |
+
+---
+
 ## Comparison Table
 
-Here is a detailed side-by-side comparison of all three libraries:
+Here is a detailed side-by-side comparison of all three SQL libraries:
 
 | Dimension | Drizzle ORM | Prisma | Kysely |
 |-----------|-------------|--------|--------|

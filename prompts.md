@@ -13,7 +13,7 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Show a side-by-side example: the same function in JS vs TS with type annotations
         ***** Explain tsconfig.json briefly - the TypeScript compiler configuration file
     **** Explain basic software engineering best practices like Version control, Linting, Code formatting, Unit Testing, CI/CD
-    **** Set the context about the TypeScript ecosystem. Mention that modern tooling (Vite, Vitest, Biome, Oxlint) will be used. Links to each tool.
+    **** Set the context about the TypeScript ecosystem. Mention that modern tooling (Vite, Vitest, Biome, Oxlint) will be used. Links to each tool. Add a note that the tools mentioned are some of the popular modern choices and that there are many other excellent tools available (Bun, Deno, Webpack, esbuild, Mocha, Jest, Express, Hono, etc.) - the ones covered provide a solid foundation but users should pick what works best for their project.
     **** Explain how VSCode will be used. Point to VSCode github link https://github.com/microsoft/vscode. Mention TypeScript and ESLint extensions.
 
 *** Node.js Environments
@@ -189,6 +189,7 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Drizzle Kit for migrations: drizzle-kit generate, drizzle-kit migrate
         ***** Show a complete example: define a schema, connect to a database, run queries
         ***** No magic - easy to understand what SQL is being generated
+        ***** Real-world example: https://github.com/amitsk/js-db-crud/tree/main/FastifyV2
     **** Prisma
         ***** Point to https://www.prisma.io and github link https://github.com/prisma/prisma
         ***** Prisma is the most popular Node.js ORM. Schema-first using the Prisma Schema Language (.prisma files)
@@ -210,6 +211,13 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Show an example: defining the DB type, creating the Kysely instance, running a typed query
         ***** When to choose Kysely: complex queries, performance-critical apps, SQL experts
     **** Comparison table: Drizzle vs Prisma vs Kysely - abstraction level, migration support, query style, TypeScript integration
+    **** DynamoDB - AWS managed NoSQL database
+        ***** Install @aws-sdk/client-dynamodb and @aws-sdk/lib-dynamodb (DocumentClient)
+        ***** Setting up the DynamoDBDocumentClient
+        ***** CRUD with PutCommand, GetCommand, QueryCommand, UpdateCommand, DeleteCommand
+        ***** Single-table design pattern with PK/SK prefixes
+        ***** Real-world example: https://github.com/amitsk/fastify-ddb
+        ***** When to use DynamoDB: serverless, event-driven, bursty traffic, AWS Lambda
 
 *** CI/CD
     **** Explain what is CI/CD. Benefits of CI/CD.
@@ -244,3 +252,19 @@ the details in this file. The audience for the tutorial are students or folks le
     **** When to choose JavaScript over TypeScript: small scripts, quick prototypes, teams not ready for TS.
     **** When to add TypeScript later: using allowJs in tsconfig.json to incrementally migrate a JS project to TypeScript.
     **** The key message: the tooling ecosystem (Vite, Vitest, Biome, Fastify, Drizzle) is shared - learning this setup makes you effective in both JS and TS.
+
+*** AWS Lambda with TypeScript
+    **** Explain what AWS Lambda is. Serverless, event-driven, automatic scaling, pay per invocation.
+    **** TypeScript advantages for Lambda: type-safe event objects, compile-time safety.
+    **** @types/aws-lambda for typed handlers: APIGatewayProxyEventV2, SQSEvent, S3Event, etc.
+    **** AWS SAM (Serverless Application Model)
+        ***** Installation: AWS CLI + SAM CLI
+        ***** template.yaml: define Lambda functions, API Gateway routes, DynamoDB tables, IAM policies
+        ***** BuildMethod: esbuild for fast TypeScript bundling
+        ***** sam build, sam local invoke, sam local start-api, sam deploy
+    **** Writing handlers: async handler, APIGatewayProxyHandlerV2, SQS handler example
+    **** Linting with Oxlint: zero-config, fast, suitable for Lambda projects
+    **** Formatting with Biome (oxfmt placeholder until oxfmt stabilizes)
+    **** Testing Lambda handlers with Vitest (no AWS needed - just TypeScript functions)
+    **** CI/CD with GitHub Actions: OIDC authentication, sam build, sam deploy on push to main
+    **** When to choose Lambda+DynamoDB vs Fastify+PostgreSQL

@@ -177,6 +177,8 @@ The JavaScript and TypeScript ecosystem is large. Here are the main tools we'll 
 
 **[TanStack Start](https://tanstack.com/start)** is a full-stack TypeScript framework built on TanStack Router. It lets you write type-safe server functions and client code in the same project, with great TypeScript integration throughout. We cover it in Chapter 10.
 
+> **A note on tool choices:** The tools highlighted in this guide represent some of the popular, modern choices in the TypeScript/JavaScript ecosystem. The ecosystem is large and moves fast — there are many other excellent tools in every category (Bun, Deno, Webpack, Rollup, esbuild, Mocha, Jasmine, Hapi, Koa, and more). The ones covered here give you a solid, well-supported foundation. Once you understand the concepts behind each category, switching to a different tool is straightforward. Don't feel locked in — pick what works best for your project and team.
+
 ---
 
 ## VSCode as Your Editor

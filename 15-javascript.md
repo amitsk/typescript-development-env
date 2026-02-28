@@ -1,6 +1,6 @@
 # Chapter 15: Using This Setup for JavaScript Projects
 
-[← Previous: Putting It All Together](./14-putting-it-together.md) | [Back to README](./README.md)
+[← Previous: Putting It All Together](./14-putting-it-together.md) | [Back to README](./README.md) | [Next: AWS Lambda with TypeScript →](./16-aws-lambda.md)
 
 ---
 
@@ -376,4 +376,4 @@ Bookmark these links — they are the authoritative source for each tool:
 
 Happy building.
 
-[← Previous: Putting It All Together](./14-putting-it-together.md) | [Back to README](./README.md)
+[← Previous: Putting It All Together](./14-putting-it-together.md) | [Back to README](./README.md) | [Next: AWS Lambda with TypeScript →](./16-aws-lambda.md)
