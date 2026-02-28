@@ -261,41 +261,149 @@ Oxlint is impressive, but it's not yet a complete replacement for ESLint:
 
 ---
 
-## ESLint vs Oxlint — Comparison
+## Biome — Unified Linter and Formatter
 
-Here's a side-by-side look at both tools:
+[Biome](https://biomejs.dev) ([GitHub](https://github.com/biomejs/biome)) is a Rust-based tool that combines a linter **and** a formatter in one. Think of it as a single replacement for both ESLint and Prettier. It is fast, requires minimal configuration, and works with JavaScript and TypeScript out of the box.
 
-| Feature | ESLint | Oxlint |
-|---|---|---|
-| **Speed** | Moderate (JavaScript) | Extremely fast (Rust, 50-100x faster) |
-| **Configuration** | Required (`eslint.config.ts`) | Optional (zero-config to start) |
-| **TypeScript support** | Excellent (via typescript-eslint) | Basic (no type-aware rules) |
-| **Type-aware rules** | Yes | No |
-| **Plugin ecosystem** | Massive (React, security, a11y, etc.) | Limited (growing) |
-| **Autofix** | Yes (many rules) | Yes (some rules) |
-| **Rule count** | Hundreds (core + plugins) | ~500 built-in rules |
-| **Maturity** | Very mature (since 2013) | Newer (actively developing) |
-| **Best for** | Complete, deep analysis | Fast feedback, large codebases |
+The linting side of Biome is covered here. Formatting is covered in [Chapter 6](./06-code-formatting.md).
 
-## Recommendation
+### Installation
 
-**For a new small project:** Start with ESLint and typescript-eslint. The setup takes a few minutes, and you get the most complete analysis — including type-aware rules that catch real bugs TypeScript alone misses.
+```bash
+pnpm add -D @biomejs/biome
+pnpm biome init    # creates biome.json
+```
 
-**For a large project or when CI speed matters:** Run Oxlint as a fast first pass to catch common issues immediately, then run ESLint for deep type-aware analysis. The two tools complement each other well.
-
-**A practical CI setup** might look like this in your `package.json`:
+### Configuration — biome.json
 
 ```json
 {
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:fast": "oxlint ."
+  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noDebugger": "error"
+      },
+      "style": {
+        "useConst": "warn",
+        "noVar": "error"
+      }
+    }
+  },
+  "files": {
+    "ignore": ["dist/**", "build/**", "node_modules/**"]
   }
 }
 ```
 
-Run `pnpm lint:fast` locally for instant feedback as you code, and `pnpm lint` before committing or in your CI pipeline for the full analysis.
+### Running Biome lint
+
+```bash
+# Check for lint errors
+pnpm biome lint .
+
+# Check and auto-fix
+pnpm biome lint --write .
+
+# Run lint + format + organize imports together (recommended)
+pnpm biome check --write .
+
+# CI mode — check without modifying files
+pnpm biome check .
+```
+
+Add to `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "check": "biome check --write .",
+    "check:ci": "biome check ."
+  }
+}
+```
+
+### Example output
+
+```
+src/index.ts:3:10 lint/correctness/noUnusedImports ━━━━━━━━━━━━━━━━━━
+  ✖ This import is never used.
+
+  3 │ import { readFile } from 'fs';
+    │          ^^^^^^^^
+
+src/index.ts:7:14 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━
+  ✖ Unexpected any. Specify a different type.
+
+  7 │ function greet(name: any) {
+    │                      ^^^
+
+Found 2 diagnostics in 1 file.
+```
+
+Biome's error output is notably readable — it highlights the exact token, shows surrounding context, and links to documentation for each rule.
+
+### Current limitations
+
+- **No type-aware rules** — like Oxlint, Biome does not integrate with the TypeScript compiler. Rules that require type information (such as detecting unhandled promises based on inferred types) are not available.
+- **Smaller rule set than ESLint** — Biome implements several hundred rules but does not cover all ESLint plugins (React-specific accessibility rules, for example, are not yet available).
+- **No plugin system (yet)** — you cannot write custom Biome rules the way you can write ESLint plugins.
+
+---
+
+## ESLint vs Oxlint vs Biome — Comparison
+
+Here's a side-by-side look at all three tools:
+
+| Feature | ESLint | Oxlint | Biome |
+|---|---|---|---|
+| **Written in** | JavaScript | Rust | Rust |
+| **Speed** | Moderate | 50–100x faster than ESLint | 20–50x faster than ESLint |
+| **Includes formatter** | No (use Prettier separately) | No | Yes |
+| **Configuration** | Required (`eslint.config.ts`) | Zero-config to start | Minimal (`biome.json`) |
+| **TypeScript support** | Excellent (via typescript-eslint) | Basic | Good (no type-aware rules) |
+| **Type-aware rules** | Yes | No | No |
+| **Plugin ecosystem** | Massive (React, a11y, security…) | None | None |
+| **Autofix** | Yes (many rules) | Yes (some rules) | Yes (most rules) |
+| **Rule count** | Hundreds (core + plugins) | ~500 built-in | ~300+ built-in |
+| **Migrate from Prettier** | N/A | N/A | `biome migrate prettier` |
+| **Migrate from ESLint** | N/A | N/A | `biome migrate eslint` |
+| **Maturity** | Very mature (2013) | Newer (active) | Newer (active) |
+| **Best for** | Deep, type-aware analysis | Fast feedback pass | Unified lint + format, new projects |
+
+## Recommendation
+
+**For a new project wanting simplicity:** Use **Biome**. One tool, one config file, handles both linting and formatting. Fast, minimal setup, and the output is excellent.
+
+**For a project needing deep TypeScript analysis:** Use **ESLint** with typescript-eslint. Type-aware rules like `no-floating-promises` catch real bugs that Biome and Oxlint cannot.
+
+**For a large codebase where CI speed is critical:** Run **Oxlint** as a fast first pass, then ESLint for type-aware analysis. The two complement each other well.
+
+**Don't combine Biome with ESLint+Prettier** on the same project — pick one approach and stick with it.
+
+A practical `package.json` that covers the main scenarios:
+
+```json
+{
+  "scripts": {
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "lint:deep": "eslint .",
+    "lint:fast": "oxlint .",
+    "check": "biome check --write .",
+    "check:ci": "biome check ."
+  }
+}
+```
 
 ---
 
