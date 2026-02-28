@@ -206,6 +206,22 @@ AI tools are fast, but your CI pipeline is the final arbiter. Running checks loc
 
 ---
 
+## This Guide Was Written by Claude Code
+
+This entire tutorial — all 15 chapters, the README, and the prompts file — was written by [Claude Code](https://github.com/anthropics/claude-code), Anthropic's official CLI, to showcase what AI-assisted development looks like in practice.
+
+The workflow used to produce it:
+
+1. A structured `prompts.md` outline was written describing every chapter and topic
+2. Claude Code generated all 16 files in parallel using multiple background agents
+3. Individual chapters were then refined through further conversation — for example, Chapter 5 was updated to add a Biome linting section and a three-way ESLint vs Oxlint vs Biome comparison
+
+Every code example was written by Claude Code. Every navigation link, comparison table, and recommendation section was composed by the model. The git commits, the GitHub push, and the iterative edits were all driven through Claude Code's CLI.
+
+This is a real-world example of what Claude Code can do on a non-trivial project: planning, parallel execution, codebase-aware editing, and version control — all from the terminal.
+
+---
+
 ## What's Next?
 
 You now have a full toolkit: TypeScript, testing, linting, databases, CI/CD, and AI assistance. In the next chapter, we put it all together by building a complete project from scratch — applying every tool we have covered in the right order.

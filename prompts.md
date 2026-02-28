@@ -79,7 +79,15 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Show how to run: npx oxlint or pnpm dlx oxlint
         ***** Current limitations: not a full ESLint replacement yet, great as a companion or first pass
         ***** When to use Oxlint: large codebases, CI speed, alongside ESLint
-    **** Recommendation: ESLint for full configurability, Oxlint for speed
+    **** Biome for linting
+        ***** Biome is a unified linter and formatter written in Rust. Point to https://biomejs.dev and github link https://github.com/biomejs/biome
+        ***** Show biome.json configuration with linting rules (correctness, suspicious, style)
+        ***** Running biome lint: biome lint ., biome lint --write ., biome check --write .
+        ***** Show example output with rich diagnostics
+        ***** Current limitations: no type-aware rules, no plugin system
+    **** Three-way comparison: ESLint vs Oxlint vs Biome
+        ***** Table covering: written in, speed, includes formatter, configuration, TypeScript support, type-aware rules, plugin ecosystem, autofix, rule count, maturity, best for
+    **** Recommendation: ESLint for deep type-aware analysis, Biome for new projects wanting one unified tool, Oxlint for fast first-pass in large codebases
 
 *** Code Formatting
     **** Explain what is code formatting. Benefits in a collaborative TypeScript/JavaScript project.
@@ -220,6 +228,7 @@ the details in this file. The audience for the tutorial are students or folks le
     **** Very short explainer about Cursor. Point to Cursor github link https://github.com/cursor-ai/cursor
     **** Short explainer about Claude Code. Point to Claude Code github link https://github.com/anthropics/claude-code
     **** Short explainer about GitHub Copilot. Point to https://github.com/features/copilot
+    **** Add a section noting that this guide itself was written by Claude Code as a showcase of its capabilities. Describe the workflow: prompts.md outline → parallel agent generation of all 16 files → iterative refinement via conversation → git commits and push all driven from the CLI.
 
 *** Putting It All Together
     **** Walk through creating a complete TypeScript project from scratch using all the tools covered.
