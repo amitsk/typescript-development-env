@@ -1,6 +1,6 @@
-# Chapter 13: LLMs and AI-Powered Development
+# Chapter 14: LLMs and AI-Powered Development
 
-[← Previous: CI/CD](./12-ci-cd.md) | [Back to README](./README.md) | [Next: Putting It All Together →](./14-putting-it-together.md)
+[← Previous: CI/CD](./13-ci-cd.md) | [Back to README](./README.md) | [Next: Putting It All Together →](./15-putting-it-together.md)
 
 ---
 
@@ -226,4 +226,4 @@ This is a real-world example of what Claude Code can do on a non-trivial project
 
 You now have a full toolkit: TypeScript, testing, linting, databases, CI/CD, and AI assistance. In the next chapter, we put it all together by building a complete project from scratch — applying every tool we have covered in the right order.
 
-[← Previous: CI/CD](./12-ci-cd.md) | [Back to README](./README.md) | [Next: Putting It All Together →](./14-putting-it-together.md)
+[← Previous: CI/CD](./13-ci-cd.md) | [Back to README](./README.md) | [Next: Putting It All Together →](./15-putting-it-together.md)

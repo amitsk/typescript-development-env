@@ -1,6 +1,6 @@
-# Chapter 14: Putting It All Together
+# Chapter 15: Putting It All Together
 
-[← Previous: LLMs and AI-Powered Development](./13-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./15-javascript.md)
+[← Previous: LLMs and AI-Powered Development](./14-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./16-javascript.md)
 
 ---
 
@@ -423,4 +423,4 @@ The `pnpm check` step handles both linting and formatting in one command. If Bio
 
 In the final chapter, we look at how to use everything you have learned for plain JavaScript projects — no TypeScript required. The whole toolchain works equally well with `.js` files, and the chapter also covers JSDoc typing and how to migrate from JavaScript to TypeScript incrementally.
 
-[← Previous: LLMs and AI-Powered Development](./13-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./15-javascript.md)
+[← Previous: LLMs and AI-Powered Development](./14-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./16-javascript.md)

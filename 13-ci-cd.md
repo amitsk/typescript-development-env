@@ -1,6 +1,6 @@
-# Chapter 12: CI/CD
+# Chapter 13: CI/CD
 
-[← Previous: Database Libraries](./11-databases.md) | [Back to README](./README.md) | [Next: LLMs and AI-Powered Development →](./13-llms.md)
+[← Previous: Logging](./12-logging.md) | [Back to README](./README.md) | [Next: LLMs and AI-Powered Development →](./14-llms.md)
 
 ---
 
@@ -278,4 +278,4 @@ act push
 
 Your TypeScript project is now automatically tested and verified on every push. In the next chapter, we will look at AI-powered development tools — including Cursor, Claude Code, and GitHub Copilot — and how they can accelerate your TypeScript workflow.
 
-[← Previous: Database Libraries](./11-databases.md) | [Back to README](./README.md) | [Next: LLMs and AI-Powered Development →](./13-llms.md)
+[← Previous: Logging](./12-logging.md) | [Back to README](./README.md) | [Next: LLMs and AI-Powered Development →](./14-llms.md)

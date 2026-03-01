@@ -1,6 +1,6 @@
 # Chapter 11: Database Libraries
 
-[← Previous: Full-Stack with TanStack Start](./10-tanstack-start.md) | [Back to README](./README.md) | [Next: CI/CD →](./12-ci-cd.md)
+[← Previous: Full-Stack with TanStack Start](./10-tanstack-start.md) | [Back to README](./README.md) | [Next: Logging →](./12-logging.md)
 
 ---
 
@@ -571,4 +571,4 @@ You now have everything you need to build a working full-stack TypeScript applic
 
 ---
 
-[← Previous: Full-Stack with TanStack Start](./10-tanstack-start.md) | [Back to README](./README.md) | [Next: CI/CD →](./12-ci-cd.md)
+[← Previous: Full-Stack with TanStack Start](./10-tanstack-start.md) | [Back to README](./README.md) | [Next: Logging →](./12-logging.md)

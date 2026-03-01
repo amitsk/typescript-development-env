@@ -1,6 +1,6 @@
-# Chapter 16: AWS Lambda with TypeScript
+# Chapter 17: AWS Lambda with TypeScript
 
-[← Previous: Using This Setup for JavaScript Projects](./15-javascript.md) | [Back to README](./README.md)
+[← Previous: Using This Setup for JavaScript Projects](./16-javascript.md) | [Back to README](./README.md)
 
 ---
 
@@ -746,4 +746,4 @@ AWS Lambda and TypeScript are a natural pair: short-lived, event-driven function
 
 ---
 
-[← Previous: Using This Setup for JavaScript Projects](./15-javascript.md) | [Back to README](./README.md)
+[← Previous: Using This Setup for JavaScript Projects](./16-javascript.md) | [Back to README](./README.md)

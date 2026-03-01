@@ -25,6 +25,7 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
 - How to build REST APIs with Fastify
 - How to build full-stack apps with TanStack Start
 - How to work with databases from TypeScript
+- How to add structured logging with Winston and Pino
 - How to set up CI/CD pipelines for automated testing and deployment
 - How to integrate LLMs and AI tools into your TypeScript workflow
 - How to bring all these tools together into a cohesive project setup
@@ -88,27 +89,32 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
     - Drizzle ORM and Prisma compared
     - Migrations and type-safe queries
 
-12. [Chapter 12: CI/CD](./12-ci-cd.md)
+12. [Chapter 12: Logging](./12-logging.md)
+    - console.log vs proper logging libraries
+    - Winston for flexible, multi-transport logging
+    - Pino for high-performance JSON logging
+
+13. [Chapter 13: CI/CD](./13-ci-cd.md)
     - What CI/CD is and why it matters
     - GitHub Actions for TypeScript projects
     - Running tests, lint, and builds automatically
 
-13. [Chapter 13: LLMs and AI-Powered Development](./13-llms.md)
+14. [Chapter 14: LLMs and AI-Powered Development](./14-llms.md)
     - Using AI tools in your development workflow
     - Calling LLM APIs from TypeScript
     - The Vercel AI SDK and prompt engineering basics
 
-14. [Chapter 14: Putting It All Together](./14-putting-it-together.md)
+15. [Chapter 15: Putting It All Together](./15-putting-it-together.md)
     - A complete project setup from scratch
     - Combining all the tools from previous chapters
     - Project structure conventions and best practices
 
-15. [Chapter 15: Using This Setup for JavaScript Projects](./15-javascript.md)
+16. [Chapter 16: Using This Setup for JavaScript Projects](./16-javascript.md)
     - How much of this applies to plain JavaScript
     - JSDoc as a lightweight alternative to TypeScript
     - When to use JS vs TS
 
-16. [Chapter 16: AWS Lambda with TypeScript](./16-aws-lambda.md)
+17. [Chapter 17: AWS Lambda with TypeScript](./17-aws-lambda.md)
     - Serverless TypeScript with AWS Lambda and `@types/aws-lambda`
     - AWS SAM for local development, testing, and deployment
     - Linting with Oxlint and formatting with oxfmt in a Lambda project

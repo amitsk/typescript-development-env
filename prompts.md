@@ -219,6 +219,25 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Real-world example: https://github.com/amitsk/fastify-ddb
         ***** When to use DynamoDB: serverless, event-driven, bursty traffic, AWS Lambda
 
+*** Logging
+    **** Why console.log is not enough for production
+    **** console.debug, console.info, console.warn, console.error as a baseline
+    **** Winston - https://github.com/winstonjs/winston - flexible, multi-transport logging
+        ***** Installation: npm install winston
+        ***** createLogger with level, format, transports
+        ***** Human-readable vs JSON format for dev vs production
+        ***** Child loggers with logger.child()
+        ***** Multiple transports: Console, File, error-only file
+    **** Pino - https://github.com/pinojs/pino - high-performance JSON logging
+        ***** Installation: npm install pino
+        ***** Zero-config JSON output
+        ***** pino-pretty for human-readable development output
+        ***** Child loggers with logger.child()
+        ***** Built-in Fastify integration (logger: { level, transport })
+        ***** Serializers for req, res, err
+    **** Comparison table: console vs Winston vs Pino
+    **** Recommendations: Pino for Fastify/high-throughput, Winston for Express/complex routing
+
 *** CI/CD
     **** Explain what is CI/CD. Benefits of CI/CD.
     **** Very short explainer about GitHub Actions. Point to https://github.com/features/actions
