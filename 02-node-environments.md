@@ -45,18 +45,22 @@ LTS versions get approximately **30 months** of support total. That's long enoug
 
 ### Current Release Schedule
 
+Status as of mid-2026 (always verify against the official schedule — dates shift):
+
 | Version | Status | Approx. End of Life |
 |---|---|---|
-| Node 18 | Maintenance LTS | April 2025 |
-| Node 20 | Active LTS | April 2026 |
-| Node 22 | Active LTS | April 2027 |
-| Node 23 | Current (non-LTS) | June 2025 |
+| Node 20 | End of Life | April 2026 (do not start new projects on 20) |
+| Node 22 | Maintenance LTS | April 2027 |
+| Node 24 | Active LTS | April 2028 |
+| Node 26 | Current (non-LTS) | — (will become LTS later; not for production yet) |
 
-For the current, authoritative schedule, always check: [https://nodejs.org/en/about/releases](https://nodejs.org/en/about/releases)
+For the current, authoritative schedule, always check: [https://nodejs.org/en/about/previous-releases](https://nodejs.org/en/about/previous-releases)
 
 ### The Rule of Thumb
 
-**Always use an LTS version for projects and learning.** Unless you have a specific reason to try bleeding-edge features, stick to the most recent Active LTS version (Node 20 or Node 22 at the time of writing). Odd-numbered Current releases are for developers who want to preview upcoming features — they're not suited for production use or new projects.
+**Always use an LTS version for projects and learning.** Unless you have a specific reason to try bleeding-edge features, stick to the most recent Active LTS version (**Node 24** at the time of this writing; **Node 22** is fine if you need a slightly older Maintenance LTS). Odd-numbered Current releases are for developers who want to preview upcoming features — they're not suited for production use or new projects.
+
+> **Avoid EOL runtimes.** Node 18 and Node 20 are past end of life. They no longer receive security patches from the Node.js project.
 
 ---
 
@@ -64,8 +68,8 @@ For the current, authoritative schedule, always check: [https://nodejs.org/en/ab
 
 Here's a situation you'll run into quickly once you're working on more than one TypeScript project:
 
-- **Project A** was started two years ago and requires Node 18
-- **Project B** is a new project and uses Node 22
+- **Project A** was started two years ago and requires Node 22
+- **Project B** is a new project and uses Node 24
 
 If you just install one version of Node.js on your machine (the way you'd install most software), you're stuck. You'd have to uninstall and reinstall Node every time you switch projects. That's obviously not practical.
 
@@ -115,19 +119,19 @@ nvm install --lts
 Install a specific version:
 
 ```bash
-nvm install 20
+nvm install 24
 ```
 
 Switch to an installed version:
 
 ```bash
-nvm use 20
+nvm use 24
 ```
 
 Set the default version (used when you open a new terminal):
 
 ```bash
-nvm alias default 20
+nvm alias default 24
 ```
 
 See all installed versions:
@@ -147,7 +151,7 @@ nvm ls-remote --lts
 The real power of nvm for project work is the `.nvmrc` file. You create this file in the root of your project with just the Node version number inside:
 
 ```bash
-echo "20" > .nvmrc
+echo "24" > .nvmrc
 ```
 
 Now, anyone who clones your project and has nvm installed can just run:
@@ -204,10 +208,10 @@ volta --version
 ### Installing a Node Version
 
 ```bash
-volta install node@20
+volta install node@24
 ```
 
-This installs Node 20 and sets it as your default. You can also install the latest LTS:
+This installs Node 24 and sets it as your default. You can also install the latest LTS:
 
 ```bash
 volta install node@lts
@@ -218,7 +222,7 @@ volta install node@lts
 This is where Volta really shines. From inside your project directory, run:
 
 ```bash
-volta pin node@20
+volta pin node@24
 ```
 
 Volta adds a `"volta"` field to your `package.json`:
@@ -228,12 +232,12 @@ Volta adds a `"volta"` field to your `package.json`:
   "name": "my-project",
   "version": "1.0.0",
   "volta": {
-    "node": "20.15.0"
+    "node": "24.4.0"
   }
 }
 ```
 
-Now whenever anyone working on this project runs `node` or any npm scripts, Volta ensures they're using exactly Node 20.15.0 — automatically, no `nvm use` required. This is a big deal for teams: Node version mismatches between developers are a common source of subtle bugs, and Volta eliminates them.
+Now whenever anyone working on this project runs `node` or any npm scripts, Volta ensures they're using exactly that Node patch version — automatically, no `nvm use` required. This is a big deal for teams: Node version mismatches between developers are a common source of subtle bugs, and Volta eliminates them.
 
 ### Why Volta Is Great
 
@@ -298,7 +302,7 @@ Verify the installation:
 
 ```bash
 mise --version
-# Output: 2024.x.x (or similar)
+# Output: 2025.x.x or 2026.x.x (or similar)
 ```
 
 ### Installing and Using Node
@@ -319,7 +323,7 @@ node = "lts"
 Or install a specific version:
 
 ```bash
-mise use node@20.15.0
+mise use node@24.4.0
 ```
 
 ### The .tool-versions Format
@@ -327,7 +331,7 @@ mise use node@20.15.0
 mise also supports the `.tool-versions` format from asdf, which looks like this:
 
 ```
-node 20.15.0
+node 24.4.0
 python 3.12.0
 ```
 
@@ -372,6 +376,17 @@ Here's a side-by-side comparison to help you decide:
 - **Choose nvm** if you prefer the classic, battle-tested approach and don't mind running `nvm use` manually (or setting up the auto-switch hook). It has the largest community and the most documentation online.
 
 All three are solid choices used by professional developers. Pick one, get comfortable with it, and don't spend too much time agonizing over the decision — you can always switch later.
+
+---
+
+## Alternative Runtimes: Bun and Deno (Optional)
+
+This guide uses **Node.js** because it is still the default runtime for the TypeScript tooling ecosystem (Vite, Vitest, most npm packages, CI images, and hosting platforms). You will also hear about:
+
+- **[Bun](https://bun.sh)** — a fast all-in-one runtime with a built-in package manager, bundler, and test runner. Great for greenfield experiments and scripts; ecosystem compatibility is excellent but not identical to Node everywhere.
+- **[Deno](https://deno.com)** — a secure-by-default runtime with first-class TypeScript support and a different module story (URL imports / `deno.json`). Strong for edge and CLI tools.
+
+For learning professional TypeScript workflows as used on most teams, start with Node + a version manager. Once you are comfortable, try Bun or Deno on a small side project — many concepts (lint, format, test, CI) transfer directly.
 
 ---
 

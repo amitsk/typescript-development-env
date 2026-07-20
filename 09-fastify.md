@@ -147,7 +147,7 @@ pnpm dev
 Visit `http://localhost:3000/health` in your browser and you should see:
 
 ```json
-{ "status": "ok", "timestamp": "2024-01-15T10:30:00.000Z" }
+{ "status": "ok", "timestamp": "2026-07-20T10:30:00.000Z" }
 ```
 
 ## Type-Safe Routes with TypeScript Generics
@@ -231,11 +231,11 @@ fastify.get('/health', async (request, reply) => {
   return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
-// Register route plugin
-await fastify.register(userRoutes);
-
+// Register routes and listen inside the same async function so you do not
+// depend on top-level await (which needs specific module/tsconfig settings).
 const start = async () => {
   try {
+    await fastify.register(userRoutes);
     await fastify.listen({ port: 3000, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);

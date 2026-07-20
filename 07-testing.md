@@ -193,7 +193,7 @@ pnpm vitest --watch  # explicit watch mode
 When you run `pnpm test:run`, the output looks something like this:
 
 ```
- RUN  v1.6.0
+ RUN  v3.x.x
 
  ✓ src/calculator.test.ts (8 tests) 3ms
    ✓ calculator > add > adds two positive numbers
@@ -358,7 +358,7 @@ pnpm test:coverage
 The terminal output shows a table like this:
 
 ```
- RUN  v1.6.0
+ RUN  v3.x.x
 
  ✓ src/calculator.test.ts (8 tests) 4ms
 

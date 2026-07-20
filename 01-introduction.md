@@ -145,7 +145,7 @@ Tests are automated checks that verify your code does what you expect. Writing t
 
 ### CI/CD
 
-Continuous Integration / Continuous Deployment automates your testing, linting, and deployment pipeline. Every time you push code, a server runs your tests and checks automatically. We cover this in [Chapter 12: CI/CD](./12-ci-cd.md).
+Continuous Integration / Continuous Deployment automates your testing, linting, and deployment pipeline. Every time you push code, a server runs your tests and checks automatically. We cover this in [Chapter 13: CI/CD](./13-ci-cd.md).
 
 ---
 

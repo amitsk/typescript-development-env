@@ -232,12 +232,19 @@ logs/
 npm-debug.log*
 pnpm-debug.log*
 
-# Editor files
-.vscode/
+# Editor files — prefer ignoring personal settings, not shared team config
 .idea/
 *.swp
 *.swo
 *~
+
+# Optional: ignore personal VS Code settings but keep shared recommendations.
+# If your team commits .vscode/extensions.json or settings.json, do NOT ignore
+# the whole folder — use the more specific patterns below instead:
+# .vscode/*
+# !.vscode/extensions.json
+# !.vscode/settings.json
+.vscode/
 
 # OS files
 .DS_Store
@@ -246,18 +253,24 @@ Thumbs.db
 # Vite
 .vite/
 
-# Misc
+# Framework / tooling caches (add as needed)
+.turbo/
+.next/
 .cache/
+
+# Environment examples are OK to commit; secrets are not
+# Keep a committed template:
+# !.env.example
 ```
 
 A few entries deserve special attention:
 
 - **`node_modules/`** — always ignore this. It can be hundreds of megabytes and is fully reproducible from your lock file.
-- **`.env` and friends** — environment files often contain API keys, database passwords, and other secrets. Committing these to a public repository is a serious security risk. Ignore them and share secrets through a secure channel (like a password manager or a secrets management service).
+- **`.env` and friends** — environment files often contain API keys, database passwords, and other secrets. Committing these to a public repository is a serious security risk. Ignore them and share secrets through a secure channel (like a password manager or a secrets management service). Commit a non-secret `.env.example` that lists variable *names* (no real values) so teammates know what to configure.
 - **`dist/`** — generated build output. It's derived from your source code, so it doesn't belong in version history.
 - **`.DS_Store`** — a macOS metadata file. Not relevant to the project and clutters the repository.
 
-> **Note:** You'll notice `.vscode/` is in the ignore list. This is a common convention for personal editor settings. However, some teams choose to commit shared VS Code settings like recommended extensions or workspace-specific debug configurations. If your team does this, remove `.vscode/` from `.gitignore` and be selective about which files inside it you commit.
+> **Note on `.vscode/`:** Ignoring the whole folder is fine for solo work. On a team, many projects commit **shared** files like `.vscode/extensions.json` (recommended extensions) and a subset of workspace settings, while still ignoring personal keybindings or local state. Use the commented patterns above if you want that split.
 
 ---
 

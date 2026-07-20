@@ -93,7 +93,7 @@ Vite is configured through `vite.config.ts`. Here is a fully annotated example f
 ```typescript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [
@@ -101,7 +101,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'), // lets you write: import Foo from '@/components/Foo'
+      // ESM-safe path (do not use bare __dirname when "type": "module")
+      '@': fileURLToPath(new URL('./src', import.meta.url)), // import Foo from '@/components/Foo'
     },
   },
   build: {
@@ -118,6 +119,8 @@ export default defineConfig({
 
 `defineConfig` is a helper that provides TypeScript autocompletion for the config object. It does not change any behavior — it just gives you type safety when editing the config.
 
+> **ESM and paths:** With `"type": "module"` in `package.json`, Node does not provide `__dirname` by default. Prefer `import.meta.url` (as above) or, on recent Node versions, `import.meta.dirname`.
+
 ---
 
 ## Development Workflow
@@ -131,7 +134,7 @@ pnpm run dev
 Vite starts a local server (typically at `http://localhost:5173`) and serves your app. The terminal output looks like:
 
 ```
-  VITE v5.0.0  ready in 243 ms
+  VITE v6.x.x  ready in 243 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose

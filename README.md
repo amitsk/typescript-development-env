@@ -13,6 +13,8 @@ If you need to learn the language itself, these are excellent resources:
 
 What this guide **is**: a practical walkthrough of the professional tools, workflows, and practices used by TypeScript developers in the real world. By the end, you'll have a complete development environment and understand why each tool exists.
 
+> **Currency note (July 2026):** Examples target **Node.js 22/24 LTS**, pnpm 10, and current tooling docs. Node 20 is end of life — do not start new projects on it. Always re-check official release pages for tools that move quickly (TanStack Start, Prisma, Oxc, Claude Code).
+
 ## What You'll Learn
 
 - How to manage Node.js versions across projects
@@ -45,8 +47,8 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
    - nvm, Volta, and mise — managing Node versions
 
 3. [Chapter 3: Package Management & package.json](./03-package-management.md)
-   - npm, yarn, and pnpm compared
-   - Understanding `package.json` and `package-lock.json`
+   - npm and pnpm compared (with a brief note on Yarn)
+   - Understanding `package.json`, lock files, and Corepack
    - Installing, updating, and removing dependencies
 
 4. [Chapter 4: Version Control](./04-version-control.md)

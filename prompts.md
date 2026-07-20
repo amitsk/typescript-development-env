@@ -31,8 +31,8 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Point to Volta website https://volta.sh and github link https://github.com/volta-cli/volta
         ***** Volta pins Node and package manager versions per project automatically
         ***** Installation instructions for all platforms
-        ***** volta install node@20
-        ***** volta pin node@20 (adds to package.json, automatic for all team members)
+        ***** volta install node@24
+        ***** volta pin node@24 (adds to package.json, automatic for all team members)
         ***** Why Volta is a good choice: fast, automatic, no manual activation needed
     **** mise (formerly rtx)
         ***** Point to mise website https://mise.jdx.dev and github link https://github.com/jdx/mise
