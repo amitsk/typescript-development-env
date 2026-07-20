@@ -103,10 +103,14 @@ Claude Code understands your git history. It can help you write commit messages,
 
 ### Installation
 
+Prefer Anthropic's current install method from the official docs (native installer / package manager). The npm global package name is:
+
 ```bash
-npm install -g @anthropic/claude-code
+npm install -g @anthropic-ai/claude-code
 claude
 ```
+
+Alternatives often documented for desktop use include Homebrew (`brew install --cask claude-code`) or a platform native installer — check [Claude Code docs](https://github.com/anthropics/claude-code) if npm is not recommended for your setup.
 
 Running `claude` without arguments starts an interactive session in your current directory.
 
@@ -182,6 +186,10 @@ discriminated union of success | error."
 
 Mentioning your TypeScript version, the libraries you are using, and the specific constraints produces much more useful code.
 
+### Zod for runtime validation (quick pointer)
+
+[Zod](https://zod.dev) is the library most TypeScript tutorials (and AI prompts) reach for when you need **runtime** checks that match your types — API bodies, env vars, form input. TypeScript types alone only exist at compile time; Zod validates values when the app runs. Install with `pnpm add zod` and pair it with Fastify, TanStack Start server functions, or plain handlers. You do not need a full chapter on Zod to start: define a schema, parse input, and share the inferred type (`z.infer<typeof schema>`).
+
 ### Let AI explain TypeScript's utility types
 
 TypeScript's built-in utility types are one of the areas where developers most often get stuck. LLMs are excellent at explaining them in plain English:
@@ -206,19 +214,17 @@ AI tools are fast, but your CI pipeline is the final arbiter. Running checks loc
 
 ---
 
-## This Guide Was Written by Claude Code
+## This Guide Was Written (and Later Reviewed) with AI Assistance
 
-This entire tutorial — all 15 chapters, the README, and the prompts file — was written by [Claude Code](https://github.com/anthropics/claude-code), Anthropic's official CLI, to showcase what AI-assisted development looks like in practice.
+The initial draft of this tutorial — chapters, README, and the prompts outline — was generated with [Claude Code](https://github.com/anthropics/claude-code) to showcase AI-assisted development:
 
-The workflow used to produce it:
+1. A structured `prompts.md` outline described every chapter and topic
+2. Claude Code generated markdown files in parallel using multiple agents
+3. Chapters were refined iteratively (for example, Chapter 5 gained Biome and a three-way ESLint / Oxlint / Biome comparison)
 
-1. A structured `prompts.md` outline was written describing every chapter and topic
-2. Claude Code generated all 16 files in parallel using multiple background agents
-3. Individual chapters were then refined through further conversation — for example, Chapter 5 was updated to add a Biome linting section and a three-way ESLint vs Oxlint vs Biome comparison
+**Human and later AI review passes** keep the guide accurate as the ecosystem moves. Currency updates (Node LTS tables, broken cross-references, install commands, ESM path aliases, oxfmt status, and similar fixes) are applied deliberately — AI drafts are a starting point, not a substitute for verification.
 
-Every code example was written by Claude Code. Every navigation link, comparison table, and recommendation section was composed by the model. The git commits, the GitHub push, and the iterative edits were all driven through Claude Code's CLI.
-
-This is a real-world example of what Claude Code can do on a non-trivial project: planning, parallel execution, codebase-aware editing, and version control — all from the terminal.
+As of the 2026 review, the guide has **17 chapters** plus README and supporting files. Always re-check official docs for tools that change quickly (TanStack Start, Prisma, Claude Code install paths).
 
 ---
 

@@ -33,8 +33,9 @@ Let's walk through a complete, realistic `package.json` for a TypeScript applica
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
+  "packageManager": "pnpm@10.12.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -49,9 +50,9 @@ Let's walk through a complete, realistic `package.json` for a TypeScript applica
     "fastify": "^5.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.0",
+    "typescript": "^5.8.0",
     "vite": "^6.0.0",
-    "vitest": "^2.0.0",
+    "vitest": "^3.0.0",
     "eslint": "^9.0.0",
     "prettier": "^3.0.0"
   }
@@ -150,9 +151,9 @@ These packages are only needed during development — for building, testing, lin
 
 ```json
 "devDependencies": {
-  "typescript": "^5.5.0",
+  "typescript": "^5.8.0",
   "vite": "^6.0.0",
-  "vitest": "^2.0.0",
+  "vitest": "^3.0.0",
   "eslint": "^9.0.0",
   "prettier": "^3.0.0"
 }
@@ -166,11 +167,31 @@ This field lets you declare the minimum version of Node.js your project requires
 
 ```json
 "engines": {
-  "node": ">=20.0.0"
+  "node": ">=22.0.0"
 }
 ```
 
 This is especially useful when working in a team or publishing a library — it prevents confusion when someone runs your project on an old Node.js version and gets mysterious errors.
+
+### packageManager and Corepack
+
+Node.js ships **Corepack**, which can activate a specific package manager version for your project. Adding a `packageManager` field locks the team onto the same pnpm (or yarn) version:
+
+```json
+"packageManager": "pnpm@10.12.0"
+```
+
+Then enable Corepack once on each machine:
+
+```bash
+corepack enable
+```
+
+When someone runs `pnpm` in the project, Corepack ensures they get the version declared in `package.json`. Commit that field so CI and teammates stay aligned. You can set it with:
+
+```bash
+corepack use pnpm@latest
+```
 
 ---
 
@@ -221,9 +242,12 @@ When you run `npm install`, it creates a `package-lock.json` file that records t
 # Option 1: Install via npm
 npm install -g pnpm
 
-# Option 2: Enable via Corepack (bundled with Node.js 16.9+, recommended)
-corepack enable pnpm
+# Option 2: Enable via Corepack (bundled with Node.js, recommended)
+corepack enable
+corepack prepare pnpm@latest --activate
 ```
+
+If your project already has a `"packageManager": "pnpm@..."` field, `corepack enable` is enough — Corepack will use that version when you run `pnpm` inside the project.
 
 ### pnpm commands
 
@@ -253,6 +277,18 @@ pnpm dlx create-vite my-app
 pnpm creates a `pnpm-lock.yaml` lock file instead of `package-lock.json`.
 
 **Recommendation:** Use pnpm for new projects. It's faster, uses less disk space, and its stricter isolation helps you catch dependency problems earlier. The rest of this tutorial uses pnpm in examples.
+
+---
+
+## Yarn — Brief Note
+
+[Yarn](https://yarnpkg.com) (especially **Yarn Berry** / Yarn 2+) is another popular package manager. You may encounter it in existing codebases. Key points if you join a Yarn project:
+
+- Classic Yarn (v1) used `yarn.lock` and a familiar `node_modules` layout.
+- Yarn Berry often uses **Plug'n'Play (PnP)** by default (no traditional `node_modules`), which can require IDE plugins and extra config. Many teams switch Berry to the `node_modules` linker for simpler tooling.
+- Commands are similar: `yarn add`, `yarn add -D`, `yarn install`, `yarn <script>`.
+
+This guide standardizes on **pnpm** for examples. Concepts (lock files, dependencies vs devDependencies, scripts) transfer directly to npm and Yarn.
 
 ---
 
@@ -325,10 +361,24 @@ pnpm dlx create-vite my-app
 pnpm dlx @biomejs/biome --help
 
 # Check your Node.js version compatibility
-npx check-node-version --node ">= 20"
+npx check-node-version --node ">= 22"
 ```
 
 These commands download the package to a temporary location, run it, and clean up. They're especially useful for scaffolding tools you only need once, and for trying out tools before deciding to add them as a project dependency.
+
+---
+
+## Optional: monorepos with pnpm workspaces
+
+If one repo holds multiple packages (for example `apps/web`, `apps/api`, `packages/shared`), pnpm **workspaces** let you install and link them from a single lock file. Create `pnpm-workspace.yaml`:
+
+```yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
+```
+
+Run `pnpm install` from the repo root. Shared libraries can be referenced with `workspace:*` protocol. Full monorepo design is outside this guide's scope, but knowing workspaces exist will help when a project outgrows a single package.
 
 ---
 

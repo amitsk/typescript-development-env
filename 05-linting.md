@@ -278,7 +278,7 @@ pnpm biome init    # creates biome.json
 
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "linter": {
     "enabled": true,
     "rules": {
@@ -302,6 +302,8 @@ pnpm biome init    # creates biome.json
   }
 }
 ```
+
+> **Schema version:** Point `$schema` at the schema matching your installed Biome major version (see [Biome docs](https://biomejs.dev) if `biome init` generates a different URL). Config keys can change between major releases — prefer `pnpm biome init` for a current starter file.
 
 ### Running Biome lint
 
@@ -389,6 +391,8 @@ Here's a side-by-side look at all three tools:
 **For a large codebase where CI speed is critical:** Run **Oxlint** as a fast first pass, then ESLint for type-aware analysis. The two complement each other well.
 
 **Don't combine Biome with ESLint+Prettier** on the same project — pick one approach and stick with it.
+
+**One lint stack per project.** Chapter 15 uses Biome alone for a standard app. Chapter 17 (AWS Lambda) shows an alternative: Oxlint for lint + Biome for format only. Both are valid — do not run Biome's linter and ESLint (or Oxlint + Biome lint) on the same files unless you carefully disable overlapping rules.
 
 A practical `package.json` that covers the main scenarios:
 

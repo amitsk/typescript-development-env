@@ -52,7 +52,7 @@ Everything else — the dev server, hot module replacement, bundling, imports �
 
 ## package.json for a JavaScript Project
 
-Here is what a clean JavaScript project's `package.json` scripts section looks like. Compare it to the TypeScript version from Chapter 14 — the only differences are the removal of `typescript` from devDependencies and the removal of `tsc --noEmit` from the build and CI scripts:
+Here is what a clean JavaScript project's `package.json` scripts section looks like. Compare it to the TypeScript version from [Chapter 15](./15-putting-it-together.md) — the only differences are the removal of `typescript` from devDependencies and the removal of `tsc --noEmit` from the build and CI scripts:
 
 ```json
 {
@@ -317,45 +317,39 @@ This means the time you invest in learning this toolchain is not wasted if you d
 
 ---
 
-## Conclusion
+## Chapter Recap (so far)
 
-Congratulations on making it through the entire tutorial. Let's look back at everything we covered.
+You have now covered the shared JS/TS toolchain and when to stay in plain JavaScript. Here is an accurate map of the guide:
 
-### Chapter Summaries
+1. **Introduction** — What this guide is (tooling, not a language course) and the ecosystem overview
+2. **Node.js Environments** — LTS, nvm / Volta / mise, optional Bun/Deno note
+3. **Package Management** — package.json, npm vs pnpm, Yarn note, Corepack, lock files
+4. **Version Control** — Git, `.gitignore`, GitHub, branching
+5. **Linting** — ESLint, Oxlint, Biome
+6. **Code Formatting** — Prettier, Biome, oxfmt (beta)
+7. **Unit Testing with Vitest** — Setup, assertions, coverage
+8. **Building with Vite** — Dev server, HMR, production builds, typecheck split
+9. **REST APIs with Fastify** — Typed routes, TypeBox, plugins
+10. **Full-Stack with TanStack Start** — Server functions and type-safe routing
+11. **Database Libraries** — Drizzle, Prisma, Kysely, DynamoDB
+12. **Logging** — console vs Winston vs Pino
+13. **CI/CD** — GitHub Actions for TypeScript projects
+14. **LLMs and AI-Powered Development** — Cursor, Claude Code, Copilot, Zod pointer
+15. **Putting It All Together** — End-to-end project setup
+16. **JavaScript Projects** (this chapter) — JSDoc, migration, same toolchain without TS
+17. **AWS Lambda** (next) — Serverless TypeScript, SAM, Oxlint/Biome
 
-1. **Introduction** — Why TypeScript, why this toolchain, and who this guide is for.
-2. **Node.js Version Management** — Using Volta to install and pin Node.js versions per project.
-3. **Package Management with pnpm** — Fast installs, disk efficiency, and the workspaces feature.
-4. **TypeScript Basics** — Types, interfaces, generics, and compiler configuration.
-5. **Code Quality: ESLint and Biome** — Automated linting to catch errors and enforce style.
-6. **Formatting with Prettier and Biome** — Consistent code formatting without arguments.
-7. **Testing with Vitest** — Writing and running unit tests with coverage reporting.
-8. **Bundling with Vite** — The development server, hot module replacement, and production builds.
-9. **Backend with Fastify** — Building type-safe HTTP servers and REST APIs.
-10. **Frontend with TanStack Start** — Full-stack React with type-safe routing and data fetching.
-11. **Database Libraries** — Drizzle ORM and Prisma for type-safe database access.
-12. **CI/CD with GitHub Actions** — Automating tests, type checking, and builds on every push.
-13. **LLMs and AI-Powered Development** — Using Cursor, Claude Code, and GitHub Copilot to write TypeScript faster.
-14. **Putting It All Together** — A complete project setup from scratch using every tool in the guide.
-15. **Using This Setup for JavaScript Projects** — The same toolchain for plain JavaScript, and when to choose each.
+### Suggested adoption order
 
-### Where to Go From Here
+Start simple. You do not need every tool on day one:
 
-Start simple. Pick one or two tools from this guide and add them to a project you are working on. You do not need to adopt everything at once.
-
-A reasonable order if you are starting fresh:
-
-1. Install Volta and pnpm — these make everything else easier
-2. Add TypeScript (or JSDoc if you prefer to stay in JavaScript)
+1. Install a Node version manager (Volta recommended) and pnpm
+2. Add TypeScript — or JSDoc if you prefer to stay in JavaScript
 3. Add Vitest — tests pay dividends immediately
-4. Add Biome — automated formatting and linting take almost no time to set up
-5. Add GitHub Actions CI — once you have tests, CI is just a YAML file away
+4. Add Biome — formatting and linting with almost no setup
+5. Add GitHub Actions CI — once you have tests, CI is a YAML file away
 
-Each tool builds on the last. By the time you have all five, you have a professional-grade development environment that would feel at home on any serious open-source or commercial project.
-
-### Official Documentation
-
-Bookmark these links — they are the authoritative source for each tool:
+### Official documentation
 
 - **Volta**: https://volta.sh
 - **pnpm**: https://pnpm.io
@@ -363,17 +357,20 @@ Bookmark these links — they are the authoritative source for each tool:
 - **Biome**: https://biomejs.dev
 - **ESLint**: https://eslint.org
 - **Prettier**: https://prettier.io
+- **Oxc (Oxlint / oxfmt)**: https://oxc.rs
 - **Vitest**: https://vitest.dev
-- **Vite**: https://vitejs.dev
+- **Vite**: https://vite.dev
 - **Fastify**: https://fastify.dev
 - **TanStack Start**: https://tanstack.com/start
 - **Drizzle**: https://orm.drizzle.team
 - **Prisma**: https://www.prisma.io/docs
 - **GitHub Actions**: https://docs.github.com/en/actions
-- **Cursor**: https://cursor.sh
+- **Cursor**: https://cursor.com
 - **Claude Code**: https://github.com/anthropics/claude-code
 - **GitHub Copilot**: https://github.com/features/copilot
 
-Happy building.
+## What's Next?
+
+The last chapter applies this toolchain to **serverless**: AWS Lambda handlers in TypeScript, local testing with SAM, DynamoDB, and a fast Oxlint + Biome workflow.
 
 [← Previous: Putting It All Together](./15-putting-it-together.md) | [Back to README](./README.md) | [Next: AWS Lambda with TypeScript →](./17-aws-lambda.md)

@@ -4,7 +4,7 @@
 
 ---
 
-You have learned a lot of individual tools across the previous 13 chapters. Now it is time to put them all together. In this chapter, we will build a complete TypeScript project from scratch — following every step in order — so you can see how all the pieces fit.
+You have learned a lot of individual tools across the previous chapters. Now it is time to put them all together. In this chapter, we will build a complete TypeScript project from scratch — following every step in order — so you can see how all the pieces fit.
 
 ## Overview
 
@@ -35,8 +35,8 @@ First, make sure Volta is installed. Volta manages your Node.js versions so diff
 # Install Volta
 curl https://get.volta.sh | bash
 # Restart your terminal after installation
-volta install node@20
-node --version   # should show v20.x.x
+volta install node@24
+node --version   # should show v24.x.x
 ```
 
 Volta installs into your shell profile so that the right Node version is activated automatically when you enter a project directory.
@@ -50,7 +50,7 @@ Vite provides an excellent project scaffolding command. We will use the `vanilla
 ```bash
 pnpm create vite my-typescript-app -- --template vanilla-ts
 cd my-typescript-app
-volta pin node@20   # pin Node version in package.json
+volta pin node@24   # pin Node version in package.json
 pnpm install
 ```
 
@@ -278,7 +278,7 @@ Create the workflow directory and file:
 mkdir -p .github/workflows
 ```
 
-Create `.github/workflows/ci.yml` with the full workflow from Chapter 12:
+Create `.github/workflows/ci.yml` with the full workflow from [Chapter 13: CI/CD](./13-ci-cd.md):
 
 ```yaml
 name: CI
@@ -296,7 +296,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [22.x, 24.x]
 
     steps:
       - name: Checkout code
@@ -305,7 +305,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -415,12 +415,32 @@ git push
 # CI runs automatically on GitHub
 ```
 
-The `pnpm check` step handles both linting and formatting in one command. If Biome reformats any files, you will see them as modified in `git status` — stage them along with your code changes. Some developers add a pre-commit hook with [lefthook](https://github.com/evilmartians/lefthook) to run these checks automatically on every `git commit`.
+The `pnpm check` step handles both linting and formatting in one command. If Biome reformats any files, you will see them as modified in `git status` — stage them along with your code changes.
+
+### Pre-commit hooks (optional but recommended)
+
+To stop bad commits before they leave your machine, add a git hook runner such as [lefthook](https://github.com/evilmartians/lefthook) or [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged). A minimal policy:
+
+- On commit: `pnpm check:ci` (or format/lint staged files only) + `pnpm typecheck`
+- On push (optional): `pnpm test:run`
+
+Keep hooks fast — heavy coverage jobs belong in CI (Chapter 13), not every local commit.
+
+> **Lint stack:** This walkthrough uses **Biome alone**. Chapter 17 shows Oxlint + Biome-format for Lambda. Pick one approach per project so rules do not fight each other.
+
+### Environment variables
+
+Load secrets from `.env` files that are gitignored (Chapter 4). For local Node scripts you can use:
+
+- Node's built-in support: `node --env-file=.env dist/server.js` (Node 20+)
+- Or a small library such as `dotenv` during development
+
+Never commit real `.env` values; commit `.env.example` with empty placeholders instead.
 
 ---
 
 ## What's Next?
 
-In the final chapter, we look at how to use everything you have learned for plain JavaScript projects — no TypeScript required. The whole toolchain works equally well with `.js` files, and the chapter also covers JSDoc typing and how to migrate from JavaScript to TypeScript incrementally.
+Next, [Chapter 16](./16-javascript.md) shows how to use this same toolchain for **plain JavaScript** projects (JSDoc, when to stay in JS, incremental migration). After that, [Chapter 17](./17-aws-lambda.md) covers **AWS Lambda** with TypeScript, SAM, and an Oxc-oriented lint/format setup.
 
 [← Previous: LLMs and AI-Powered Development](./14-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./16-javascript.md)

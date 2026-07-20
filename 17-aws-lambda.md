@@ -454,22 +454,20 @@ Oxlint catches the most common correctness issues — unused variables, unreacha
 
 ---
 
-## Formatting with oxfmt
+## Formatting: Biome today, oxfmt (beta) optional
 
-**oxfmt** is the Oxc project's TypeScript/JavaScript formatter — the formatting counterpart to Oxlint. As of early 2025, oxfmt is in early development and not yet production-ready, but it is part of the broader Oxc tooling ecosystem that also includes Oxlint.
-
-While oxfmt matures, use **Biome** for formatting in Lambda projects. Biome is already production-ready, formats TypeScript identically to how Prettier does, and is written in Rust — making it extremely fast:
+**oxfmt** is the Oxc project's TypeScript/JavaScript formatter — the formatting counterpart to Oxlint. As of **mid-2026**, oxfmt is in **beta**: Prettier-compatible goals, very high throughput, and suitable for experiments and many greenfield repos. For maximum maturity on a production Lambda service, **Biome** remains a safe default for formatting only (linter off, so it does not fight Oxlint).
 
 ```bash
 pnpm add -D @biomejs/biome
 pnpm biome init
 ```
 
-A `biome.json` suitable for a Lambda project:
+A `biome.json` suitable for a Lambda project (format only):
 
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -485,7 +483,7 @@ A `biome.json` suitable for a Lambda project:
 }
 ```
 
-Linting is handled by Oxlint; Biome handles formatting only — this avoids duplicating lint rules across two tools.
+Linting is handled by Oxlint; Biome handles formatting only — this avoids duplicating lint rules across two tools. (Chapter 15 uses Biome for both; this chapter intentionally shows the Oxc-oriented split.)
 
 Add to `package.json`:
 
@@ -498,7 +496,7 @@ Add to `package.json`:
 }
 ```
 
-> **When oxfmt is stable:** Replace `@biomejs/biome` with the Oxc formatter. The command will likely be `oxfmt src/` — a single consistent tool for both linting and formatting in the Oxc ecosystem. Watch the [Oxc repository](https://github.com/oxc-project/oxc) for the stable release.
+> **Trying oxfmt beta:** Check [Oxc formatter docs](https://oxc.rs/docs/guide/usage/formatter) for the current package name and CLI (often `oxfmt`). Compare `git diff` after a full-tree format before switching a large repo.
 
 ---
 
@@ -624,11 +622,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
       - uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 10
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -659,11 +657,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
       - uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 10
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -712,14 +710,14 @@ Key points:
     "deploy": "sam deploy"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
+    "@biomejs/biome": "^2.0.0",
     "@types/aws-lambda": "^8.10.0",
-    "@types/node": "^22.0.0",
-    "@vitest/coverage-v8": "^2.0.0",
-    "esbuild": "^0.24.0",
-    "oxlint": "^0.15.0",
-    "typescript": "^5.7.0",
-    "vitest": "^2.0.0"
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "esbuild": "^0.25.0",
+    "oxlint": "^0.16.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.0.0",
@@ -738,11 +736,25 @@ Key points:
 | AWS SAM | Define infrastructure, build with esbuild, test locally, deploy to AWS |
 | esbuild | Bundle each handler into a single JS file optimized for cold-start time |
 | Oxlint | Fast Rust-based linting — catches correctness issues before deployment |
-| Biome | Fast TypeScript formatting (oxfmt replacement until it stabilizes) |
+| Biome (or oxfmt beta) | Fast TypeScript formatting; keep linter off if Oxlint owns lint |
 | Vitest | Unit tests for handler logic — no AWS required |
 | GitHub Actions + OIDC | Automated test, build, and deploy pipeline |
 
 AWS Lambda and TypeScript are a natural pair: short-lived, event-driven functions benefit enormously from the compile-time safety that TypeScript provides. Combined with SAM's local development tools, Oxlint's fast feedback, and Vitest's test runner, you get a professional serverless development workflow that feels as productive as working on a traditional Node.js server.
+
+---
+
+## Conclusion — the full guide
+
+You have completed the TypeScript development environment guide: runtimes and packages, quality tools, testing and builds, APIs and full-stack apps, data and logging, CI/CD, AI-assisted workflows, plain JavaScript, and serverless Lambda.
+
+**Where to go from here**
+
+1. Scaffold a real project with Chapter 15's checklist (or Lambda with this chapter)
+2. Pin Node LTS (22 or 24) and `packageManager` so the team stays aligned
+3. Keep CI green and re-check official docs when major tools release
+
+Happy building.
 
 ---
 

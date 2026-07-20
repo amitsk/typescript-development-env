@@ -76,7 +76,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [22.x, 24.x]
 
     steps:
       - name: Checkout code
@@ -85,7 +85,8 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          # Prefer matching package.json "packageManager" when you pin one
+          version: 10
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -135,10 +136,10 @@ The runner starts as a blank virtual machine. This step clones your repository o
 - name: Install pnpm
   uses: pnpm/action-setup@v4
   with:
-    version: 9
+    version: 10
 ```
 
-GitHub runners have Node.js pre-installed, but they do not have pnpm. This official pnpm action installs it. Specifying `version: 9` ensures you always get the same pnpm version regardless of what GitHub has available.
+GitHub runners have Node.js pre-installed, but they do not have pnpm. This official pnpm action installs it. Specifying a major version (or reading `packageManager` from `package.json`) ensures CI matches local installs.
 
 ### `actions/setup-node@v4` with `cache: 'pnpm'`
 
@@ -191,14 +192,14 @@ The `strategy.matrix` section is one of the most powerful features of GitHub Act
 ```yaml
 strategy:
   matrix:
-    node-version: [20.x, 22.x]
+    node-version: [22.x, 24.x]
 ```
 
-This tells GitHub Actions to run the entire `quality` job **twice** — once with Node 20 and once with Node 22. The jobs run in parallel, so the total time is only slightly longer than running it once.
+This tells GitHub Actions to run the entire `quality` job **twice** — once with Node 22 and once with Node 24. The jobs run in parallel, so the total time is only slightly longer than running it once.
 
 ### Why does this matter?
 
-Node.js has a Long-Term Support (LTS) release schedule. Node 20 is the current LTS; Node 22 is the latest. By testing on both, you ensure your project works for developers on older Node versions and is compatible with the newest version too.
+Node.js has a Long-Term Support (LTS) release schedule. As of mid-2026, Node 24 is Active LTS and Node 22 is Maintenance LTS (Node 20 is end of life). By testing on both supported lines, you ensure your project works for developers on the older supported version and the current Active LTS.
 
 ### Extending the matrix to multiple operating systems
 
@@ -207,7 +208,7 @@ You can add an `os` dimension to test across platforms:
 ```yaml
 strategy:
   matrix:
-    node-version: [20.x, 22.x]
+    node-version: [22.x, 24.x]
     os: [ubuntu-latest, windows-latest, macos-latest]
 runs-on: ${{ matrix.os }}
 ```

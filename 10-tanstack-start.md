@@ -48,7 +48,9 @@ The full-stack approach trades some flexibility (one frontend per backend) for a
 
 ## Scaffolding a TanStack Start Project
 
-TanStack Start has an interactive project scaffolder:
+TanStack Start evolves quickly. Prefer the **current official install docs** if the command below has been renamed: [https://tanstack.com/start](https://tanstack.com/start).
+
+A common interactive scaffolder (verify name against the docs if this fails):
 
 ```bash
 pnpm create tsrouter-app my-fullstack-app
@@ -56,7 +58,7 @@ pnpm create tsrouter-app my-fullstack-app
 
 The scaffolder will prompt you for options. For following along with this chapter, select:
 
-- Framework: **TanStack Start**
+- Framework: **TanStack Start** (or the Start / full-stack option shown in the wizard)
 - Language: **TypeScript**
 - Styling: **Tailwind CSS** (optional, but recommended)
 
@@ -69,6 +71,8 @@ pnpm dev
 ```
 
 Open `http://localhost:3000` and you will see the starter app running.
+
+> **API drift:** File layout (`app/` vs `src/`), `createServerFn`, and config filenames can change between releases. Treat the examples below as the *pattern* (file-based routes, loaders, server functions) and adjust import paths to match what the scaffolder generated.
 
 ## Project Structure Walkthrough
 
@@ -137,7 +141,9 @@ Server functions are the heart of TanStack Start. They let you write server-side
 Create `app/server/users.ts`:
 
 ```typescript
-import { createServerFn } from '@tanstack/start';
+// Import path may be @tanstack/react-start or similar depending on version —
+// match whatever your scaffolder / package.json provides.
+import { createServerFn } from '@tanstack/react-start';
 
 interface User {
   id: number;

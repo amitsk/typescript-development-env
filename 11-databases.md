@@ -189,6 +189,8 @@ pnpm prisma init
 
 `pnpm prisma init` creates a `prisma/` directory with a starter `schema.prisma` file and adds a `DATABASE_URL` placeholder to a new `.env` file.
 
+> **Prisma config evolves:** Recent Prisma versions may move some datasource/CLI settings into a separate config file. If `prisma init` generates a layout different from the example below, follow the files it created and the [Prisma docs](https://www.prisma.io/docs) for your installed major version.
+
 ### Defining Your Schema
 
 Edit `prisma/schema.prisma`:
@@ -413,7 +415,7 @@ This is a deliberate design choice: Kysely keeps its scope narrow so you can com
 
 [DynamoDB](https://aws.amazon.com/dynamodb/) is Amazon's fully managed NoSQL database service. Unlike the relational databases covered above, DynamoDB is a **key-value and document store** — there is no SQL, no fixed schema, and no JOIN operations. Instead, you design your data model around your access patterns from the start.
 
-DynamoDB is a natural fit for **serverless architectures** (covered in [Chapter 16](./16-aws-lambda.md)) because it scales automatically, charges per request rather than per persistent connection, and handles bursty traffic without pre-provisioning capacity. If you are building AWS Lambda functions, DynamoDB is often the database of choice.
+DynamoDB is a natural fit for **serverless architectures** (covered in [Chapter 17: AWS Lambda](./17-aws-lambda.md)) because it scales automatically, charges per request rather than per persistent connection, and handles bursty traffic without pre-provisioning capacity. If you are building AWS Lambda functions, DynamoDB is often the database of choice.
 
 ### Installation
 
@@ -565,9 +567,15 @@ All three libraries are production-ready and widely used. The choice comes down 
 
 **Choose Kysely if** you want maximum control over the SQL being executed, have complex query requirements (deep joins, window functions, CTEs), or are working on a performance-critical application where you need to reason precisely about every query. Kysely is also a great choice when you want to gradually add TypeScript types to an existing application that already has a raw `pg` or `mysql2` setup.
 
+### Learning tip: start with SQLite
+
+If you do not want to run PostgreSQL locally yet, both Drizzle and Prisma support **SQLite** for learning and small apps. Swap the dialect/provider to SQLite, set a file path (for example `file:./dev.db`), and keep the same CRUD patterns. Move to PostgreSQL when you need concurrent multi-user production hosting.
+
+---
+
 ## What's Next?
 
-You now have everything you need to build a working full-stack TypeScript application: a bundler (Vite), an API framework (Fastify) or full-stack framework (TanStack Start), and a database library. The final piece of a professional workflow is automation: making sure your code is tested and deployed reliably every time you push a change. That is what CI/CD, covered in the next chapter, is all about.
+You now have everything you need to build a working full-stack TypeScript application: a bundler (Vite), an API framework (Fastify) or full-stack framework (TanStack Start), and a database library. Next we add **structured logging** so production services are observable — then CI/CD in the chapter after that automates tests and deploys.
 
 ---
 

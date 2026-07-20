@@ -46,9 +46,8 @@ This is enough for simple scripts and short-lived processes. For long-running se
 [Winston](https://github.com/winstonjs/winston) is the most widely used Node.js logging library. It's flexible and configuration-driven: you define transports (destinations) and formatters, and Winston routes messages through them.
 
 ```bash
-npm install winston
-# or
 pnpm add winston
+# npm: npm install winston
 ```
 
 ### Basic Setup
@@ -75,9 +74,9 @@ logger.error("Database connection failed", { host: "localhost", port: 5432 });
 
 JSON output:
 ```json
-{"level":"info","message":"Application started","timestamp":"2024-05-01T12:00:00.000Z"}
-{"level":"warn","message":"Config file not found, using defaults","timestamp":"2024-05-01T12:00:00.001Z"}
-{"level":"error","message":"Database connection failed","host":"localhost","port":5432,"timestamp":"2024-05-01T12:00:00.002Z"}
+{"level":"info","message":"Application started","timestamp":"2026-07-20T12:00:00.000Z"}
+{"level":"warn","message":"Config file not found, using defaults","timestamp":"2026-07-20T12:00:00.001Z"}
+{"level":"error","message":"Database connection failed","host":"localhost","port":5432,"timestamp":"2026-07-20T12:00:00.002Z"}
 ```
 
 ### Human-Readable Format for Development
@@ -145,11 +144,11 @@ Winston ships its own types. For additional transports (Datadog, Elasticsearch, 
 [Pino](https://github.com/pinojs/pino) is a high-performance JSON logger. It's designed to add as little overhead as possible to your application — logging is done asynchronously via a separate worker, keeping the main thread free. Pino is the default logger in [Fastify](./09-fastify.md) and is popular in any latency-sensitive Node.js service.
 
 ```bash
-npm install pino
-npm install --save-dev @types/pino   # if needed — recent versions ship types
-# or
 pnpm add pino
+# npm: npm install pino
 ```
+
+Modern Pino **ships its own TypeScript types**. You almost never need `@types/pino` — only install it if your editor complains and the package version is unusually old.
 
 ### Basic Usage
 
@@ -176,7 +175,7 @@ Output is newline-delimited JSON:
 Pino outputs raw JSON, which is fast but hard to read during development. Use `pino-pretty` as a transform:
 
 ```bash
-npm install --save-dev pino-pretty
+pnpm add -D pino-pretty
 ```
 
 ```typescript
