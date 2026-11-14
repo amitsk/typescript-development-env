@@ -93,6 +93,14 @@ git --version
 
 Here's the workflow you'll use when starting a new project and making your first commits.
 
+```mermaid
+flowchart LR
+    WD["Working Directory (Edited Files)"] -- "git add" --> Stage["Staging Area (Index)"]
+    Stage -- "git commit" --> Local["Local Repository (.git)"]
+    Local -- "git push" --> Remote["Remote Repository (GitHub)"]
+    Remote -- "git pull" --> WD
+```
+
 ### Step 1: Configure your identity
 
 Before your first commit, tell Git who you are. This information is embedded in every commit you make.
@@ -287,6 +295,13 @@ The standard approach used by most teams is called **GitHub Flow**:
 5. A teammate reviews your code and leaves comments
 6. Once approved, the branch is merged into `main`
 7. The feature branch is deleted
+
+```mermaid
+flowchart LR
+    Main1["main (Production Ready)"] -- "git checkout -b feature/auth" --> Feat["feature/auth (Commits)"]
+    Feat -- "git push & Open PR" --> PR["Pull Request (Code Review + CI Checks)"]
+    PR -- "Squash / Merge" --> Main2["main (Updated)"]
+```
 
 ```bash
 # Create and switch to a new branch

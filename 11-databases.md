@@ -44,6 +44,13 @@ An Object-Relational Mapper (ORM) like **Drizzle** or **Prisma** goes further: y
 
 In practice, most TypeScript projects today use either Drizzle or Prisma. Kysely is popular in performance-sensitive applications and among developers who want to stay close to SQL.
 
+```mermaid
+flowchart LR
+    Raw["Level 1: Raw SQL Driver (pg / mysql2 - No Type Safety)"] --> QB["Level 2: Query Builder (Kysely - Typed SQL)"]
+    QB --> Drizzle["Level 3a: SQL-First ORM (Drizzle - TS Schema + SQL-like API)"]
+    Drizzle --> Prisma["Level 3b: Schema-First ORM (Prisma - .prisma DSL + Generated Client)"]
+```
+
 ---
 
 ## Drizzle ORM
@@ -167,6 +174,14 @@ pnpm drizzle-kit studio     # open a visual database browser at http://localhost
 ```
 
 The workflow is: modify `schema.ts` → run `generate` → review the generated SQL → run `migrate`. The generated SQL files are committed to version control, giving you a full history of every schema change.
+
+```mermaid
+flowchart LR
+    Schema["1. Edit src/db/schema.ts"] --> Gen["2. drizzle-kit generate"]
+    Gen --> SQL["3. Review SQL in drizzle/*.sql"]
+    SQL --> Migrate["4. drizzle-kit migrate"]
+    Migrate --> DB[("PostgreSQL / SQLite Database")]
+```
 
 ### Real-World Example
 

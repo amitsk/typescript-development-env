@@ -251,11 +251,10 @@ the details in this file. The audience for the tutorial are students or folks le
         ***** Builds the project (vite build)
 
 *** LLMs and AI-Powered Development
-    **** Explain what LLMs are. Benefits of using LLMs in TypeScript/JavaScript projects.
-    **** Very short explainer about Cursor. Point to Cursor github link https://github.com/cursor-ai/cursor
-    **** Short explainer about Claude Code. Point to Claude Code github link https://github.com/anthropics/claude-code
-    **** Short explainer about GitHub Copilot. Point to https://github.com/features/copilot
-    **** Add a section noting that this guide itself was written by Claude Code as a showcase of its capabilities. Describe the workflow: prompts.md outline → parallel agent generation of all 16 files → iterative refinement via conversation → git commits and push all driven from the CLI.
+    **** Explain what LLMs and coding agents are. Benefits of using LLMs in TypeScript/JavaScript projects.
+    **** Overview of AI coding tools with links: Claude Code (https://github.com/anthropics/claude-code), Google Antigravity / agy (https://antigravity.google/docs), Grok Build (https://github.com/xai-org/grok-build), Cursor (https://cursor.com), GitHub Copilot CLI (https://github.com/github/copilot-cli), OpenAI Codex CLI (https://github.com/openai/codex).
+    **** Spec-Driven Development (SDD): why structure matters before generating code, Elephant-Goldfish Model (https://egm.dev/), OpenSpec (https://openspec.dev/), and a complete example TypeScript feature specification.
+    **** Add a section noting that this guide itself was written by Claude Code and refined with Google Antigravity (agy) as a showcase of AI-assisted workflows.
 
 *** Putting It All Together
     **** Walk through creating a complete TypeScript project from scratch using all the tools covered.

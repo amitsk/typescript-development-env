@@ -23,6 +23,14 @@ This works fine during development, but falls apart in production:
 
 A proper logging library gives you all of that with minimal overhead.
 
+```mermaid
+flowchart LR
+    App["TypeScript Application"] --> Child["Child Logger (requestId, userId)"]
+    Child --> Logger["Structured Logger (Pino / Winston)"]
+    Logger -- "Development" --> Pretty["Terminal (pino-pretty / Colorized)"]
+    Logger -- "Production" --> JSON["JSON Stream (stdout / CloudWatch / Datadog)"]
+```
+
 ---
 
 ## console.log — The Baseline

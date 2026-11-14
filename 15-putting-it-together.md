@@ -25,6 +25,20 @@ Here is a quick recap of what we have covered:
 
 We will apply all of them in a single walkthrough. The result will be a project you can use as a template for future work.
 
+```mermaid
+flowchart TD
+    Volta["Volta (Node 24 LTS)"] --> Pnpm["pnpm (Package Manager & Lockfile)"]
+    Pnpm --> Vite["Vite (Dev Server & Bundler)"]
+    Pnpm --> TS["TypeScript (Strict tsconfig.json)"]
+    Pnpm --> Biome["Biome (Lint + Format)"]
+    Pnpm --> Vitest["Vitest (Unit Tests + V8 Coverage)"]
+    TS --> LocalCI["pnpm ci (Local Verification)"]
+    Biome --> LocalCI
+    Vitest --> LocalCI
+    Vite --> LocalCI
+    LocalCI --> GHA["GitHub Actions (Automated CI Matrix)"]
+```
+
 ---
 
 ## Step 1: Set Up Node.js with Volta

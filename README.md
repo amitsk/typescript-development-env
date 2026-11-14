@@ -13,7 +13,41 @@ If you need to learn the language itself, these are excellent resources:
 
 What this guide **is**: a practical walkthrough of the professional tools, workflows, and practices used by TypeScript developers in the real world. By the end, you'll have a complete development environment and understand why each tool exists.
 
-> **Currency note (July 2026):** Examples target **Node.js 22/24 LTS**, pnpm 10, and current tooling docs. Node 20 is end of life — do not start new projects on it. Always re-check official release pages for tools that move quickly (TanStack Start, Prisma, Oxc, Claude Code).
+> **Currency note (2026):** Examples target **Node.js 22/24 LTS**, pnpm 10, and current tooling docs. Node 20 is end of life — do not start new projects on it. Always re-check official release pages for tools that move quickly (TanStack Start, Prisma, Oxc, Claude Code, Antigravity).
+
+## Guide Roadmap
+
+```mermaid
+flowchart TD
+    subgraph Foundation["1. Runtime & Project Foundation"]
+        C1["Ch 1: Introduction & tsconfig"] --> C2["Ch 2: Node.js LTS (Volta / mise / nvm)"]
+        C2 --> C3["Ch 3: Package Management (pnpm)"]
+        C3 --> C4["Ch 4: Version Control (Git & GitHub)"]
+    end
+
+    subgraph Quality["2. Code Quality, Testing & Bundling"]
+        C4 --> C5["Ch 5: Linting (ESLint / Oxlint / Biome)"]
+        C5 --> C6["Ch 6: Formatting (Prettier / Biome / oxfmt)"]
+        C6 --> C7["Ch 7: Unit Testing (Vitest & Coverage)"]
+        C7 --> C8["Ch 8: Building & Bundling (Vite)"]
+    end
+
+    subgraph Apps["3. Backend, Full-Stack & Persistence"]
+        C8 --> C9["Ch 9: REST APIs (Fastify)"]
+        C8 --> C10["Ch 10: Full-Stack (TanStack Start)"]
+        C9 --> C11["Ch 11: Databases (Drizzle / Prisma / Kysely / DynamoDB)"]
+        C10 --> C11
+        C11 --> C12["Ch 12: Structured Logging (Pino / Winston)"]
+    end
+
+    subgraph Workflows["4. Automation, AI & Capstone Tracks"]
+        C12 --> C13["Ch 13: CI/CD (GitHub Actions)"]
+        C13 --> C14["Ch 14: AI Agents & Spec-Driven Dev (EGM / OpenSpec)"]
+        C14 --> C15["Ch 15: Putting It All Together"]
+        C15 --> C16["Ch 16: Plain JavaScript & JSDoc"]
+        C15 --> C17["Ch 17: Serverless AWS Lambda & SAM"]
+    end
+```
 
 ## What You'll Learn
 
@@ -102,9 +136,9 @@ What this guide **is**: a practical walkthrough of the professional tools, workf
     - Running tests, lint, and builds automatically
 
 14. [Chapter 14: LLMs and AI-Powered Development](./14-llms.md)
-    - Using AI tools in your development workflow
-    - Calling LLM APIs from TypeScript
-    - The Vercel AI SDK and prompt engineering basics
+    - AI coding editors and terminal agents (Cursor, Claude Code, `agy`, Grok Build, Copilot CLI, Codex)
+    - Spec-Driven Development (SDD) with the Elephant-Goldfish Model (EGM) and OpenSpec
+    - Writing actionable specs, runtime validation with Zod, and verification workflows
 
 15. [Chapter 15: Putting It All Together](./15-putting-it-together.md)
     - A complete project setup from scratch

@@ -23,6 +23,14 @@ Key characteristics:
 
 Lambda works with nearly every AWS service as a trigger, making it the glue layer in many event-driven architectures.
 
+```mermaid
+flowchart LR
+    Client["HTTP Client / SQS Queue"] --> Trigger["API Gateway HTTP API / Event Trigger"]
+    Trigger --> Lambda["AWS Lambda Function (TypeScript + @types/aws-lambda)"]
+    Lambda --> DDB[("Amazon DynamoDB (Single-Table Design)")]
+    Lambda --> CW["CloudWatch Logs (Structured JSON)"]
+```
+
 ---
 
 ## Project Setup

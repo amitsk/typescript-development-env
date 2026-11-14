@@ -48,11 +48,16 @@ TypeScript has a compiler (called `tsc`) that reads your `.ts` files and outputs
 
 Your workflow looks like this:
 
-```
-TypeScript source (.ts) → tsc (TypeScript compiler) → JavaScript output (.js) → Browser or Node.js
+```mermaid
+flowchart LR
+    TS["TypeScript Source (.ts)"] --> Check["Type Checker (tsc --noEmit)"]
+    TS --> Build["Compiler / Bundler (tsc / Vite / esbuild)"]
+    Check -- "Compile-time Errors" --> Dev["Developer / Editor"]
+    Build --> JS["JavaScript Output (.js)"]
+    JS --> Runtime["Browser or Node.js Runtime"]
 ```
 
-In practice, most modern tools (like Vite, which we cover in Chapter 8) handle this compilation step for you automatically, so you rarely need to invoke `tsc` directly in day-to-day work.
+In practice, most modern tools (like Vite, which we cover in Chapter 8) handle the transpilation step for you automatically, while Node.js 22.6+ and Node 24+ can even execute `.ts` files directly by stripping type annotations on the fly (though you still run `tsc --noEmit` to type-check your code).
 
 ### Why Bother with Types?
 
@@ -125,7 +130,18 @@ You don't need to memorize this yet — we'll revisit `tsconfig.json` in context
 
 ## Software Engineering Best Practices
 
-TypeScript itself is just a language. The real power of a professional development setup comes from the practices and tools that surround it. Here's a quick preview of the best practices we'll cover:
+TypeScript itself is just a language. The real power of a professional development setup comes from the practices and tools that surround it.
+
+```mermaid
+flowchart LR
+    Code["Write Code (VSCode / AI Agent)"] --> Format["Format (Biome / Prettier)"]
+    Format --> Lint["Lint & Typecheck (Biome / ESLint / tsc)"]
+    Lint --> Test["Unit Test (Vitest)"]
+    Test --> Git["Commit & Push (Git / GitHub)"]
+    Git --> CI["Automated Pipeline (GitHub Actions CI/CD)"]
+```
+
+Here's a quick preview of the best practices we'll cover:
 
 ### Version Control
 

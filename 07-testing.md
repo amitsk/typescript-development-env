@@ -1,8 +1,17 @@
-[← Previous: Code Formatting](./06-code-formatting.md) | [Back to README](./README.md) | [Next: Building with Vite →](./08-vite.md)
-
 # Chapter 7: Unit Testing with Vitest
 
+[← Previous: Code Formatting](./06-code-formatting.md) | [Back to README](./README.md) | [Next: Building with Vite →](./08-vite.md)
+
+---
+
 Writing code is only half the job. The other half is making sure it actually does what you think it does. Unit tests let you verify that individual functions and modules behave correctly — and they keep working correctly as your codebase grows and changes.
+
+```mermaid
+flowchart LR
+    Arrange["1. Arrange (Set up inputs & mocks)"] --> Act["2. Act (Call target TypeScript function)"]
+    Act --> Assert["3. Assert (Verify output with expect)"]
+    Assert --> Cov["4. Coverage Check (Enforce >= 80% threshold)"]
+```
 
 ## What is Unit Testing?
 

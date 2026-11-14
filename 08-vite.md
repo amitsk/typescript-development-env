@@ -1,6 +1,8 @@
+# Chapter 8: Building with Vite
+
 [← Previous: Unit Testing with Vitest](./07-testing.md) | [Back to README](./README.md) | [Next: REST APIs with Fastify →](./09-fastify.md)
 
-# Chapter 8: Building with Vite
+---
 
 TypeScript is a great language for writing code, but browsers and Node.js cannot run it directly. Before your code can be deployed, it needs to be compiled to JavaScript. A build tool handles this — and a lot more.
 
@@ -38,6 +40,20 @@ Vite works differently in development and production:
 - Changes appear in the browser in milliseconds
 
 **Production mode** uses [Rollup](https://rollupjs.org) under the hood to produce highly optimized bundles. You get the best developer experience during development and the best output quality for production.
+
+```mermaid
+flowchart TD
+    subgraph DevMode["Development Mode (pnpm dev)"]
+        D1["Browser Requests ES Module"] --> D2["Vite Dev Server (esbuild strips types on demand)"]
+        D2 --> D3["Instant HMR Update in Browser"]
+    end
+
+    subgraph ProdMode["Production Build (pnpm build)"]
+        P1["Source Files (.ts / .tsx)"] --> P2["tsc --noEmit (Full Type Verification)"]
+        P2 --> P3["Vite + Rollup (Tree-shake, Minify, Hash Assets)"]
+        P3 --> P4["Optimized dist/ Bundle"]
+    end
+```
 
 ### TypeScript and esbuild
 

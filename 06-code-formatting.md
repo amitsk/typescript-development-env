@@ -1,8 +1,17 @@
-[← Previous: Linting](./05-linting.md) | [Back to README](./README.md) | [Next: Unit Testing with Vitest →](./07-testing.md)
-
 # Chapter 6: Code Formatting
 
+[← Previous: Linting](./05-linting.md) | [Back to README](./README.md) | [Next: Unit Testing with Vitest →](./07-testing.md)
+
+---
+
 Every developer has opinions about code style — tabs vs spaces, single vs double quotes, trailing commas or not. These debates slow down code reviews and create noisy diffs. Code formatters solve this by automatically enforcing a consistent style for the entire team, so nobody has to think about it.
+
+```mermaid
+flowchart LR
+    Save["1. Save File in Editor (formatOnSave)"] --> Hook["2. Pre-Commit Hook (Format Staged Files)"]
+    Hook --> CI["3. CI Pipeline (biome check / prettier --check)"]
+    CI --> Clean["Consistent Codebase & Noise-Free Git Diffs"]
+```
 
 ## What is Code Formatting?
 

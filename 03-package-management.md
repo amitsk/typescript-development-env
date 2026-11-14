@@ -236,6 +236,14 @@ When you run `npm install`, it creates a `package-lock.json` file that records t
 - **Less disk space** — that global store means your total disk usage for packages is dramatically lower.
 - **Stricter dependency isolation** — pnpm prevents packages from accessing dependencies they haven't declared, which catches hidden dependency bugs early.
 
+```mermaid
+flowchart LR
+    Store["Global Content-Addressable Store (~/.local/share/pnpm/store)"]
+    Store -- "Hard Link" --> AppA["project-a/node_modules/fastify@5.2.1"]
+    Store -- "Hard Link" --> AppB["project-b/node_modules/fastify@5.2.1"]
+    Store -- "Hard Link" --> AppC["project-c/node_modules/fastify@5.2.1"]
+```
+
 ### Installing pnpm
 
 ```bash
@@ -302,6 +310,15 @@ When you run `pnpm install`, pnpm does two things:
 The lock file answers a critical question: if `package.json` says `"fastify": "^5.0.0"`, which exact version is actually installed? The lock file records the answer — say, `5.2.1` — so every developer on your team, and every CI server, installs the exact same thing.
 
 Without a lock file, two developers running `pnpm install` a week apart might end up with different versions of a dependency, leading to "works on my machine" bugs.
+
+```mermaid
+flowchart TD
+    Pkg["package.json (Version Ranges, e.g. ^5.0.0)"] --> Local["Local Dev: pnpm install"]
+    Local --> Lock["pnpm-lock.yaml (Exact Pinned Tree, e.g. 5.2.1)"]
+    Lock --> Git["Commit Both Files to Git"]
+    Git --> CI["CI / Teammates: pnpm install --frozen-lockfile"]
+    CI --> Identical["Guaranteed Identical node_modules/"]
+```
 
 **Rules for lock files:**
 

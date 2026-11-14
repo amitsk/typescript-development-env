@@ -56,6 +56,16 @@ Beyond raw speed, Fastify's key advantages are:
 - **Plugin architecture** — keeps large codebases organized; everything from CORS to authentication is a plugin
 - **Auto-generated OpenAPI docs** — add `@fastify/swagger` and your API documents itself
 
+```mermaid
+flowchart LR
+    Req["HTTP Request"] --> Router["Fastify Router"]
+    Router --> Schema["JSON Schema / TypeBox Validation"]
+    Schema -- "Invalid (400)" --> Err["Auto Error Response"]
+    Schema -- "Valid & Typed" --> Handler["TypeScript Route Handler"]
+    Handler --> Serial["Fast JSON Serializer"]
+    Serial --> Res["HTTP JSON Response"]
+```
+
 ## Setting Up a Fastify Project
 
 Start by creating a new directory and initializing a project:

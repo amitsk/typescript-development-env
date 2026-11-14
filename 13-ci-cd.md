@@ -115,6 +115,20 @@ jobs:
 
 This single file gives you a full quality pipeline that runs automatically on every push and every pull request.
 
+```mermaid
+flowchart LR
+    Trigger["Git Push / Pull Request"] --> Checkout["Checkout & Restore pnpm Cache"]
+    Checkout --> Matrix["Matrix: Node 22.x & Node 24.x"]
+    subgraph Pipeline["Quality Gate Steps"]
+        Matrix --> Install["pnpm install --frozen-lockfile"]
+        Install --> TC["pnpm typecheck"]
+        TC --> Lint["pnpm lint & format:check"]
+        Lint --> Test["pnpm test:coverage"]
+        Test --> Build["pnpm build"]
+    end
+    Build --> Status["PR Status Check (Green / Red)"]
+```
+
 ---
 
 ## Understanding Each Step

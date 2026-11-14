@@ -43,6 +43,13 @@ An LTS release goes through three phases:
 
 LTS versions get approximately **30 months** of support total. That's long enough to build a project, ship it, and have time to plan upgrades without being forced to rush.
 
+```mermaid
+flowchart LR
+    Current["Current (Even Version, ~6 mos)"] --> Active["Active LTS (~18 mos: Features + Security)"]
+    Active --> Maint["Maintenance LTS (~12 mos: Critical Fixes Only)"]
+    Maint --> EOL["End of Life (Upgrade Required)"]
+```
+
 ### Current Release Schedule
 
 Status as of mid-2026 (always verify against the official schedule — dates shift):
@@ -77,7 +84,17 @@ This is the same problem Python developers solve with `venv` and `pyenv` — dif
 
 The solution is a **Node version manager**: a tool that lets you install multiple versions of Node.js and switch between them easily.
 
+```mermaid
+flowchart TD
+    Shell["Terminal Command: node / npm / pnpm"] --> Shim["Version Manager Shim (Volta / mise / nvm)"]
+    Shim -- "Inside project-a/ (package.json / .nvmrc)" --> Node22["Node.js v22 LTS"]
+    Shim -- "Inside project-b/ (package.json / .mise.toml)" --> Node24["Node.js v24 LTS"]
+```
+
 There are three popular options in the Node.js ecosystem: **nvm**, **Volta**, and **mise**. We'll cover all three so you can choose the one that fits your workflow.
+
+> **Tip: Native TypeScript Execution in Node 22.6+ and Node 24+**
+> Modern Node.js can run `.ts` files directly by stripping type annotations on the fly (`node src/index.ts` in Node 24+, or `node --experimental-strip-types src/index.ts` in earlier Node 22 releases). Node strips types without type-checking, so you still run `tsc --noEmit` in your editor and CI pipeline to catch type errors.
 
 ---
 

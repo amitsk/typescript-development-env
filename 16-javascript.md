@@ -295,6 +295,13 @@ With these settings:
 
 From here, you can rename files from `.js` to `.ts` one at a time, adding types as you go. Tighten the compiler options (turn on `strict: true`, then individual strict flags) as the codebase improves. A large JavaScript project can be fully migrated to TypeScript over weeks or months without ever breaking the build.
 
+```mermaid
+flowchart LR
+    JS["1. Plain JavaScript (.js)"] --> JSDoc["2. JSDoc + // @ts-check"]
+    JSDoc --> AllowJS["3. tsconfig.json (allowJs: true, strict: false)"]
+    AllowJS -->StrictTS["4. Full TypeScript (.ts, strict: true)"]
+```
+
 ---
 
 ## The Shared Ecosystem Is the Key Point
@@ -334,7 +341,7 @@ You have now covered the shared JS/TS toolchain and when to stay in plain JavaSc
 11. **Database Libraries** — Drizzle, Prisma, Kysely, DynamoDB
 12. **Logging** — console vs Winston vs Pino
 13. **CI/CD** — GitHub Actions for TypeScript projects
-14. **LLMs and AI-Powered Development** — Cursor, Claude Code, Copilot, Zod pointer
+14. **LLMs and AI-Powered Development** — Cursor, Claude Code, `agy`, Grok Build, Copilot CLI, Codex, Spec-Driven Development (EGM, OpenSpec), Zod pointer
 15. **Putting It All Together** — End-to-end project setup
 16. **JavaScript Projects** (this chapter) — JSDoc, migration, same toolchain without TS
 17. **AWS Lambda** (next) — Serverless TypeScript, SAM, Oxlint/Biome
@@ -367,7 +374,12 @@ Start simple. You do not need every tool on day one:
 - **GitHub Actions**: https://docs.github.com/en/actions
 - **Cursor**: https://cursor.com
 - **Claude Code**: https://github.com/anthropics/claude-code
-- **GitHub Copilot**: https://github.com/features/copilot
+- **Google Antigravity (`agy`)**: https://antigravity.google/docs
+- **Grok Build**: https://github.com/xai-org/grok-build
+- **GitHub Copilot & Copilot CLI**: https://github.com/features/copilot / https://github.com/github/copilot-cli
+- **OpenAI Codex CLI**: https://github.com/openai/codex
+- **Elephant-Goldfish Model (EGM)**: https://egm.dev/
+- **OpenSpec**: https://openspec.dev/
 
 ## What's Next?
 

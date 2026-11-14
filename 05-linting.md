@@ -384,6 +384,17 @@ Here's a side-by-side look at all three tools:
 
 ## Recommendation
 
+```mermaid
+flowchart TD
+    Start["Choosing a Linter Stack"] --> Q1{"Need type-aware rules (e.g. no-floating-promises) or React/a11y plugins?"}
+    Q1 -- "Yes" --> Q2{"Is the codebase large / CI slow?"}
+    Q2 -- "Yes" --> OxES["Oxlint (Fast First Pass) + ESLint (Type-Aware Pass)"]
+    Q2 -- "No" --> ESLint["ESLint + typescript-eslint"]
+    Q1 -- "No" --> Q3{"Want a single unified tool for lint + format?"}
+    Q3 -- "Yes" --> Biome["Biome (biome check)"]
+    Q3 -- "No (Lint only, max speed)" --> Oxlint["Oxlint"]
+```
+
 **For a new project wanting simplicity:** Use **Biome**. One tool, one config file, handles both linting and formatting. Fast, minimal setup, and the output is excellent.
 
 **For a project needing deep TypeScript analysis:** Use **ESLint** with typescript-eslint. Type-aware rules like `no-floating-promises` catch real bugs that Biome and Oxlint cannot.

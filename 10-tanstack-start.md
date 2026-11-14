@@ -27,6 +27,19 @@ Here is how the two architectures compare:
 
 The full-stack approach trades some flexibility (one frontend per backend) for a dramatically better developer experience on web-first projects.
 
+```mermaid
+flowchart TD
+    subgraph Split["Split Architecture (Fastify + React SPA)"]
+        SPA["React SPA (Vite)"] -- "HTTP fetch (Manual Types)" --> API["Fastify REST API"]
+        API --> DB1[("Database")]
+    end
+
+    subgraph FullStack["Full-Stack Architecture (TanStack Start)"]
+        UI["React Route Component"] -- "Route.useLoaderData() (Auto-Typed)" --> Loader["Route Loader / createServerFn()"]
+        Loader --> DB2[("Database")]
+    end
+```
+
 ## TanStack Start
 
 [TanStack Start](https://tanstack.com/start) ([GitHub](https://github.com/TanStack/router)) is a full-stack React framework built on top of two well-established TanStack libraries:
