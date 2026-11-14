@@ -4,34 +4,16 @@
 
 ---
 
-You have learned a lot of individual tools across the previous chapters. Now it is time to put them all together. In this chapter, we will build a complete TypeScript project from scratch — following every step in order — so you can see how all the pieces fit.
-
-## Overview
-
-Here is a quick recap of what we have covered:
-
-| Tool | Purpose |
-|---|---|
-| Volta | Node.js version management |
-| pnpm | Fast, efficient package manager |
-| TypeScript | Static types and compilation |
-| Biome | Linting and formatting |
-| Vitest | Fast unit testing with coverage |
-| Vite | Bundler and dev server |
-| Fastify | Backend HTTP server |
-| TanStack Start | Full-stack React framework |
-| Drizzle | Type-safe ORM |
-| GitHub Actions | CI/CD automation |
-
-We will apply all of them in a single walkthrough. The result will be a project you can use as a template for future work.
+You've met all the individual tools. Now let's assemble them into a single, cohesive TypeScript project from scratch — the kind of repo you can proudly link on your resume or use as a starter template for hackathons and side projects.
 
 ```mermaid
 flowchart TD
     Volta["Volta (Node 24 LTS)"] --> Pnpm["pnpm (Package Manager & Lockfile)"]
-    Pnpm --> Vite["Vite (Dev Server & Bundler)"]
-    Pnpm --> TS["TypeScript (Strict tsconfig.json)"]
-    Pnpm --> Biome["Biome (Lint + Format)"]
-    Pnpm --> Vitest["Vitest (Unit Tests + V8 Coverage)"]
+    Pnpm --> Spec["Spec + Modern Web Guidance"]
+    Spec --> Vite["Vite (Dev Server & Bundler)"]
+    Spec --> TS["TypeScript (Strict tsconfig.json)"]
+    Spec --> Biome["Biome (Lint + Format)"]
+    Spec --> Vitest["Vitest (Unit Tests + V8 Coverage)"]
     TS --> LocalCI["pnpm ci (Local Verification)"]
     Biome --> LocalCI
     Vitest --> LocalCI
@@ -41,54 +23,25 @@ flowchart TD
 
 ---
 
-## Step 1: Set Up Node.js with Volta
+## Step 1: Pin Node.js with Volta & Scaffold with Vite
 
-First, make sure Volta is installed. Volta manages your Node.js versions so different projects can use different Node versions without conflicting.
+Install Volta (if you haven't yet) and scaffold a clean `vanilla-ts` Vite project:
 
 ```bash
-# Install Volta
 curl https://get.volta.sh | bash
-# Restart your terminal after installation
 volta install node@24
-node --version   # should show v24.x.x
-```
 
-Volta installs into your shell profile so that the right Node version is activated automatically when you enter a project directory.
-
----
-
-## Step 2: Scaffold the Project with Vite
-
-Vite provides an excellent project scaffolding command. We will use the `vanilla-ts` template, which gives us a minimal TypeScript setup without any framework — perfect for learning.
-
-```bash
 pnpm create vite my-typescript-app -- --template vanilla-ts
 cd my-typescript-app
-volta pin node@24   # pin Node version in package.json
+volta pin node@24
 pnpm install
 ```
 
-The `volta pin` command adds a `volta` field to `package.json` that records which Node version this project uses. Anyone who clones the repository with Volta installed will automatically get the correct Node version.
-
-After running `pnpm install`, your project structure looks like this:
-
-```
-my-typescript-app/
-├── src/
-│   ├── main.ts
-│   ├── counter.ts
-│   └── vite-env.d.ts
-├── index.html
-├── package.json
-├── tsconfig.json
-└── pnpm-lock.yaml
-```
-
 ---
 
-## Step 3: Configure TypeScript
+## Step 2: Lock Down `tsconfig.json`
 
-Vite generates a basic `tsconfig.json`, but let's replace it with a stricter, production-ready configuration. Open `tsconfig.json` and replace its contents:
+Replace the starter `tsconfig.json` with a strict configuration that catches `undefined` array indexing and implicit returns before they bite you:
 
 ```json
 {
@@ -110,54 +63,26 @@ Vite generates a basic `tsconfig.json`, but let's replace it with a stricter, pr
 }
 ```
 
-Each option is doing real work here:
-
-- `strict: true` — enables the full suite of strict type checks
-- `noUncheckedIndexedAccess` — accessing `array[0]` returns `T | undefined`, not just `T`, which prevents runtime crashes when the index does not exist
-- `exactOptionalPropertyTypes` — distinguishes between a property being missing and a property being explicitly set to `undefined`
-- `noImplicitReturns` — every code path in a function must return a value
-- `noFallthroughCasesInSwitch` — prevents accidental fall-through in switch statements
-- `moduleResolution: "Bundler"` — the correct setting when using Vite or another bundler (not the Node.js resolver)
-
 ---
 
-## Step 4: Set Up Biome for Linting and Formatting
+## Step 3: Set Up Biome for Linting & Formatting
 
-Biome replaces both ESLint and Prettier with a single, fast tool. Install it and initialize its config:
+One tool, one config file, zero tabs-vs-spaces drama:
 
 ```bash
 pnpm add -D @biomejs/biome
 pnpm biome init
 ```
 
-The `biome init` command creates a `biome.json` configuration file in your project root. The defaults are sensible, but you can customize rules there as your project grows.
-
-Now add these scripts to the `"scripts"` section of `package.json`:
-
-```json
-"lint": "biome lint .",
-"format": "biome format --write .",
-"check": "biome check --write .",
-"check:ci": "biome check .",
-"typecheck": "tsc --noEmit"
-```
-
-Note the difference between `check` and `check:ci`:
-
-- `check` applies fixes automatically — use this locally
-- `check:ci` only checks without modifying files — use this in CI so the workflow fails if code is not formatted
-
 ---
 
-## Step 5: Set Up Vitest with Coverage
-
-Vitest is the natural testing framework for Vite projects. They share the same configuration format and the same transform pipeline, so TypeScript just works with no extra setup.
+## Step 4: Set Up Vitest with Coverage
 
 ```bash
 pnpm add -D vitest @vitest/coverage-v8
 ```
 
-Create `vitest.config.ts` in the project root:
+Create `vitest.config.ts`:
 
 ```typescript
 import { defineConfig } from 'vitest/config';
@@ -175,29 +100,55 @@ export default defineConfig({
 });
 ```
 
-A few things to note:
+---
 
-- `globals: true` — makes `describe`, `it`, `expect`, etc. available without importing them
-- `environment: 'node'` — runs tests in a Node.js environment (use `'jsdom'` for DOM-related tests)
-- `thresholds: { lines: 80 }` — the `test:coverage` command will fail if less than 80% of your code is covered by tests
+## Step 5: Add Modern Web Guidance for Frontend & AI Agents
 
-Add the test scripts to `package.json`:
+Before writing frontend HTML/CSS/TS (or letting an AI agent generate it), there's a common trap: LLMs were trained on years of legacy Stack Overflow answers, so left to their own devices they'll happily build a 300-line custom React modal instead of using the native HTML `<dialog>` element.
 
-```json
-"test": "vitest",
-"test:run": "vitest run",
-"test:coverage": "vitest run --coverage"
-```
+**[Google Chrome's Modern Web Guidance](https://github.com/googlechrome/modern-web-guidance)** is an open-source reference and AI agent skill/plugin maintained by the Chrome team that teaches both humans and coding agents modern Baseline web APIs — including native `<dialog>` and Popover API, CSS container queries, View Transitions, Core Web Vitals (LCP, INP, CLS), accessibility, and security best practices.
 
-- `test` runs Vitest in watch mode — it re-runs tests when files change, great for development
-- `test:run` runs once and exits — use this in CI and pre-commit hooks
-- `test:coverage` runs once with the coverage report
+When working on any web UI in your TypeScript project:
+
+- Bookmark [github.com/googlechrome/modern-web-guidance](https://github.com/googlechrome/modern-web-guidance) to check modern HTML/CSS/DOM patterns first.
+- Install it as a skill/plugin in your AI coding agent (`claude`, `agy`, Cursor) so the agent queries current web standards instead of hallucinating 2016 workarounds.
 
 ---
 
-## Step 6: Write the Application Code and Tests
+## Step 6: Write the Specification First (Spec-Driven Development)
 
-Now let's write something worth testing. Create `src/calculator.ts`:
+Following the Spec-Driven Development workflow from [Chapter 14](./14-llms.md), let's write a quick, unambiguous spec in `specs/calculator.spec.md` *before* writing code (or handing the task to an AI agent):
+
+````markdown
+# Spec: Safe Calculator Module (`src/calculator.ts`)
+
+## 1. Goal
+Implement a pure, strictly typed arithmetic module (`src/calculator.ts`) with unit tests (`src/calculator.test.ts`).
+
+## 2. Public API & Types
+```typescript
+export function add(a: number, b: number): number;
+export function divide(a: number, b: number): number;
+export function calculatePercentage(part: number, whole: number): number;
+```
+
+## 3. Behavioral Rules & Edge Cases
+- `add(a, b)` returns the sum of `a` and `b`.
+- `divide(a, b)` returns `a / b`. If `b === 0`, throw `new Error('Cannot divide by zero')`.
+- `calculatePercentage(part, whole)` returns `(part / whole) * 100` rounded to 2 decimal places. If `whole === 0`, throw `new Error('Whole cannot be zero')`.
+- No `any` types allowed; must pass `tsc --noEmit` with `strict: true`.
+
+## 4. Verification Criteria
+- [ ] `pnpm typecheck` passes
+- [ ] `pnpm check:ci` passes with 0 Biome warnings
+- [ ] `pnpm test:coverage` passes with >= 80% line coverage, testing happy paths and zero-division throws
+````
+
+---
+
+## Step 7: Implement the Code and Tests
+
+Now implement `src/calculator.ts` directly from the spec:
 
 ```typescript
 export function add(a: number, b: number): number {
@@ -208,15 +159,18 @@ export function divide(a: number, b: number): number {
   if (b === 0) throw new Error('Cannot divide by zero');
   return a / b;
 }
+
+export function calculatePercentage(part: number, whole: number): number {
+  if (whole === 0) throw new Error('Whole cannot be zero');
+  return Math.round((part / whole) * 10000) / 100;
+}
 ```
 
-These functions are simple, but they demonstrate two important patterns: a happy-path function and a function that can throw. Both need tests.
-
-Create `src/calculator.test.ts`:
+And `src/calculator.test.ts`:
 
 ```typescript
 import { describe, it, expect } from 'vitest';
-import { add, divide } from './calculator';
+import { add, divide, calculatePercentage } from './calculator';
 
 describe('calculator', () => {
   it('adds numbers', () => expect(add(2, 3)).toBe(5));
@@ -224,137 +178,18 @@ describe('calculator', () => {
   it('throws on divide by zero', () => {
     expect(() => divide(1, 0)).toThrow('Cannot divide by zero');
   });
+  it('calculates percentage rounded to 2 decimal places', () => {
+    expect(calculatePercentage(1, 3)).toBe(33.33);
+    expect(() => calculatePercentage(5, 0)).toThrow('Whole cannot be zero');
+  });
 });
 ```
 
-Run the tests to confirm everything works:
-
-```bash
-pnpm test:run
-```
-
-You should see three passing tests. Now run with coverage:
-
-```bash
-pnpm test:coverage
-```
-
-The HTML coverage report is written to `coverage/index.html` — open it in a browser to see which lines are covered.
-
 ---
 
-## Step 7: Set Up Git and .gitignore
+## Step 8: Wire Up `package.json` Scripts, Git & CI
 
-Before initializing git, create a `.gitignore` file so you do not accidentally commit build output or dependencies:
-
-```
-# Dependencies
-node_modules/
-
-# Build output
-dist/
-
-# Coverage reports
-coverage/
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Editor directories
-.vscode/
-.idea/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# TypeScript cache
-*.tsbuildinfo
-```
-
-Now initialize git and make the first commit:
-
-```bash
-git init
-git add .
-git commit -m "Initial TypeScript project setup"
-```
-
----
-
-## Step 8: Set Up GitHub Actions CI
-
-Create the workflow directory and file:
-
-```bash
-mkdir -p .github/workflows
-```
-
-Create `.github/workflows/ci.yml` with the full workflow from [Chapter 13: CI/CD](./13-ci-cd.md):
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  quality:
-    name: Quality Checks
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Type check
-        run: pnpm typecheck
-
-      - name: Lint
-        run: pnpm check:ci
-
-      - name: Run tests with coverage
-        run: pnpm test:coverage
-
-      - name: Build
-        run: pnpm build
-```
-
-Commit this file:
-
-```bash
-git add .github/
-git commit -m "Add GitHub Actions CI workflow"
-```
-
----
-
-## The Complete package.json Scripts Section
-
-After all the steps above, your `package.json` scripts section should look like this:
+Update the `"scripts"` section of `package.json` with a single `"ci"` command that runs every check in order:
 
 ```json
 "scripts": {
@@ -373,88 +208,33 @@ After all the steps above, your `package.json` scripts section should look like 
 }
 ```
 
-Notice the `ci` script at the bottom. It chains all the quality checks together in the same order as the CI workflow. Running `pnpm ci` locally before pushing lets you catch any failures before they hit GitHub Actions.
+Create `.gitignore`:
 
----
-
-## Step 9: Push to GitHub
-
-If you have the [GitHub CLI](https://cli.github.com) installed, creating a GitHub repository and pushing is a single command:
-
-```bash
-gh repo create my-typescript-app --public --source=. --remote=origin
-git push -u origin main
+```gitignore
+node_modules/
+dist/
+coverage/
+.env
+.env.*.local
+.DS_Store
+*.tsbuildinfo
 ```
 
-After pushing, navigate to your repository on GitHub. Under the **Actions** tab, you will see your CI workflow running. Watch it go green.
-
-If you do not have the GitHub CLI, create a repository manually on github.com and follow the instructions to add it as a remote.
-
----
-
-## Project Templates
-
-Building a project from scratch is the best way to learn, but for future projects you often want to start from a template that already has all the boilerplate configured.
-
-Some good starting points:
-
-- **[cookiecutter-typescript-library](https://github.com/amitsk/cookiecutter-typescript-library)** — a template for TypeScript libraries with testing, linting, and CI already wired up
-- **`pnpm create vite`** — official Vite scaffolding for frontend projects; supports React, Vue, Svelte, and vanilla TypeScript templates
-- **`pnpm create tsrouter-app`** — scaffolds a TanStack Router project with TypeScript configured
-
-Templates save you 30–60 minutes of setup on every new project. Once you have a setup you like, consider creating your own template repository on GitHub and using it as the starting point for future projects.
-
----
-
-## Daily Development Workflow Summary
-
-Once your project is set up, your day-to-day workflow is straightforward:
+Add `.github/workflows/ci.yml` (from [Chapter 13](./13-ci-cd.md)), run `pnpm ci` locally to verify everything is green, and push to GitHub:
 
 ```bash
-# Start dev server with hot reloading
-pnpm dev
-
-# Run tests in watch mode while you code
-pnpm test
-
-# Before committing: lint, format, type check, and run all tests
-pnpm check        # lint + format (applies fixes automatically)
-pnpm typecheck    # catch type errors
-pnpm test:run     # verify all tests pass
-
-# Commit and push
-git add .
-git commit -m "Add feature X"
-git push
-# CI runs automatically on GitHub
+pnpm ci
+git init && git add .
+git commit -m "Initial TypeScript project setup from spec"
+gh repo create my-typescript-app --public --source=. --remote=origin --push
 ```
 
-The `pnpm check` step handles both linting and formatting in one command. If Biome reformats any files, you will see them as modified in `git status` — stage them along with your code changes.
-
-### Pre-commit hooks (optional but recommended)
-
-To stop bad commits before they leave your machine, add a git hook runner such as [lefthook](https://github.com/evilmartians/lefthook) or [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged). A minimal policy:
-
-- On commit: `pnpm check:ci` (or format/lint staged files only) + `pnpm typecheck`
-- On push (optional): `pnpm test:run`
-
-Keep hooks fast — heavy coverage jobs belong in CI (Chapter 13), not every local commit.
-
-> **Lint stack:** This walkthrough uses **Biome alone**. Chapter 17 shows Oxlint + Biome-format for Lambda. Pick one approach per project so rules do not fight each other.
-
-### Environment variables
-
-Load secrets from `.env` files that are gitignored (Chapter 4). For local Node scripts you can use:
-
-- Node's built-in support: `node --env-file=.env dist/server.js` (Node 20+)
-- Or a small library such as `dotenv` during development
-
-Never commit real `.env` values; commit `.env.example` with empty placeholders instead.
+> **Want to skip the setup next time?** Turn your repo into a GitHub Template, or check out [cookiecutter-typescript-library](https://github.com/amitsk/cookiecutter-typescript-library). You can also add [lefthook](https://github.com/evilmartians/lefthook) or [Husky](https://typicode.github.io/husky/) to run `pnpm check:ci` automatically on `git commit`.
 
 ---
 
 ## What's Next?
 
-Next, [Chapter 16](./16-javascript.md) shows how to use this same toolchain for **plain JavaScript** projects (JSDoc, when to stay in JS, incremental migration). After that, [Chapter 17](./17-aws-lambda.md) covers **AWS Lambda** with TypeScript, SAM, and an Oxc-oriented lint/format setup.
+Next, [Chapter 16](./16-javascript.md) shows how to use this exact same toolchain for plain JavaScript projects with JSDoc, and [Chapter 17](./17-aws-lambda.md) takes TypeScript serverless with AWS Lambda.
 
 [← Previous: LLMs and AI-Powered Development](./14-llms.md) | [Back to README](./README.md) | [Next: Using This Setup for JavaScript Projects →](./16-javascript.md)

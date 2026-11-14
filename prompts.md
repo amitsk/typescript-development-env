@@ -258,10 +258,12 @@ the details in this file. The audience for the tutorial are students or folks le
 
 *** Putting It All Together
     **** Walk through creating a complete TypeScript project from scratch using all the tools covered.
-    **** Create a new project with Vite (or TanStack Start), configure TypeScript, set up ESLint+Prettier (or Biome), add Vitest with coverage, connect to a database with Drizzle, add a Fastify API layer.
+    **** Include https://github.com/googlechrome/modern-web-guidance for modern web best practices and AI agent guidance.
+    **** Include a concrete Spec-Driven Development spec example before implementing the module and tests.
+    **** Create a new project with Vite, configure TypeScript, set up Biome, add Vitest with coverage, write code from the spec, and configure GitHub Actions CI.
     **** Show the complete package.json scripts section that ties everything together.
-    **** Short explainer about project templates and scaffolding tools. Point to https://github.com/amitsk/cookiecutter-typescript-library (or a similar TS template).
-    **** Walk through the GitHub workflow: create repo, push, open PR, CI runs automatically.
+    **** Short explainer about project templates and scaffolding tools. Point to https://github.com/amitsk/cookiecutter-typescript-library.
+    **** Walk through the GitHub workflow: create repo, push, CI runs automatically.
 
 *** Using This Setup for JavaScript Projects
     **** Explain that everything in this tutorial (except TypeScript-specific compiler steps) works equally well for plain JavaScript projects.

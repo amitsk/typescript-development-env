@@ -1,19 +1,19 @@
 # TypeScript Development Environment Setup Guide
 
-This guide is for developers who want to set up a professional, modern TypeScript development environment from scratch. Whether you're a student who has written some code before, a JavaScript developer moving into TypeScript, or someone who wants to level up your tooling knowledge, this guide walks you through everything you need — version control, linting, formatting, testing, building, and deploying TypeScript projects.
+Welcome! If you've ever finished a university coding assignment where your entire project lived in a single 800-line file, used `console.log("HERE 1")` as your primary debugging strategy, and broke five minutes before submission because of a typo — this guide is for you.
+
+Whether you're a CS student moving from classroom assignments to real-world engineering, or a junior developer leveling up your JavaScript/TypeScript workflow, this guide walks you through the professional toolkit: version control, linting, formatting, testing, building, AI agents, and deploying TypeScript projects.
 
 ## About This Guide
 
-This is **not** a TypeScript or JavaScript language tutorial. It assumes you either already know some TypeScript/JavaScript, or that you'll be learning the language alongside setting up your environment.
+This is **not** a "what is a `for` loop?" tutorial. We assume you already know basic JavaScript or TypeScript (or are learning it alongside this guide). If you need a language refresher, bookmark these two:
 
-If you need to learn the language itself, these are excellent resources:
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) — the official TypeScript docs
+- [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide) — the gold-standard JavaScript reference
 
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/) — the official TypeScript documentation
-- [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide) — Mozilla's comprehensive JavaScript reference
+**What this guide IS:** a practical, no-fluff tour of the tools real engineering teams use so their code doesn't catch fire in production.
 
-What this guide **is**: a practical walkthrough of the professional tools, workflows, and practices used by TypeScript developers in the real world. By the end, you'll have a complete development environment and understand why each tool exists.
-
-> **Currency note (2026):** Examples target **Node.js 22/24 LTS**, pnpm 10, and current tooling docs. Node 20 is end of life — do not start new projects on it. Always re-check official release pages for tools that move quickly (TanStack Start, Prisma, Oxc, Claude Code, Antigravity).
+> **Currency note (2026):** Examples target **Node.js 22/24 LTS**, pnpm 10, and current tooling. Node 20 is end of life — let it rest in peace. Always re-check official docs for fast-moving tools (TanStack Start, Prisma, Oxc, Claude Code, Antigravity).
 
 ## Guide Roadmap
 
@@ -49,133 +49,34 @@ flowchart TD
     end
 ```
 
-## What You'll Learn
-
-- How to manage Node.js versions across projects
-- How to manage packages and understand `package.json`
-- How to use Git for version control in TypeScript projects
-- How to lint your code with ESLint to catch bugs early
-- How to format your code consistently with Biome or Prettier
-- How to write and run unit tests with Vitest
-- How to build frontend apps with Vite
-- How to build REST APIs with Fastify
-- How to build full-stack apps with TanStack Start
-- How to work with databases from TypeScript
-- How to add structured logging with Winston and Pino
-- How to set up CI/CD pipelines for automated testing and deployment
-- How to integrate LLMs and AI tools into your TypeScript workflow
-- How to bring all these tools together into a cohesive project setup
-- How to apply this TypeScript setup to plain JavaScript projects
-- How to build and deploy serverless functions with AWS Lambda and TypeScript
-
 ## Table of Contents
 
-1. [Chapter 1: Introduction](./01-introduction.md)
-   - What TypeScript is and how it differs from JavaScript
-   - Software engineering best practices overview
-   - The TypeScript ecosystem and tools we'll use
-
-2. [Chapter 2: Node.js Environments](./02-node-environments.md)
-   - What Node.js is and why you need it
-   - LTS releases and why they matter
-   - nvm, Volta, and mise — managing Node versions
-
-3. [Chapter 3: Package Management & package.json](./03-package-management.md)
-   - npm and pnpm compared (with a brief note on Yarn)
-   - Understanding `package.json`, lock files, and Corepack
-   - Installing, updating, and removing dependencies
-
-4. [Chapter 4: Version Control](./04-version-control.md)
-   - Git basics for TypeScript projects
-   - `.gitignore` patterns for Node.js
-   - Branching strategies and commit conventions
-
-5. [Chapter 5: Linting](./05-linting.md)
-   - What linting is and why it matters
-   - Setting up ESLint for TypeScript
-   - Common lint rules and how to configure them
-
-6. [Chapter 6: Code Formatting](./06-code-formatting.md)
-   - Why consistent formatting matters
-   - Prettier and Biome compared
-   - Integrating formatters into your editor and CI
-
-7. [Chapter 7: Unit Testing with Vitest](./07-testing.md)
-   - Why you should write tests
-   - Setting up Vitest in a TypeScript project
-   - Writing your first unit tests
-
-8. [Chapter 8: Building with Vite](./08-vite.md)
-   - What a build tool does
-   - Setting up a Vite project from scratch
-   - Configuration and plugins
-
-9. [Chapter 9: REST APIs with Fastify](./09-fastify.md)
-   - Why Fastify over Express
-   - Building a typed REST API
-   - Validation, plugins, and project structure
-
-10. [Chapter 10: Full-Stack with TanStack Start](./10-tanstack-start.md)
-    - What full-stack TypeScript looks like
-    - Setting up TanStack Start
-    - Server functions, routing, and data loading
-
-11. [Chapter 11: Database Libraries](./11-databases.md)
-    - ORMs vs query builders vs raw SQL
-    - Drizzle ORM and Prisma compared
-    - Migrations and type-safe queries
-
-12. [Chapter 12: Logging](./12-logging.md)
-    - console.log vs proper logging libraries
-    - Winston for flexible, multi-transport logging
-    - Pino for high-performance JSON logging
-
-13. [Chapter 13: CI/CD](./13-ci-cd.md)
-    - What CI/CD is and why it matters
-    - GitHub Actions for TypeScript projects
-    - Running tests, lint, and builds automatically
-
-14. [Chapter 14: LLMs and AI-Powered Development](./14-llms.md)
-    - AI coding editors and terminal agents (Cursor, Claude Code, `agy`, Grok Build, Copilot CLI, Codex)
-    - Spec-Driven Development (SDD) with the Elephant-Goldfish Model (EGM) and OpenSpec
-    - Writing actionable specs, runtime validation with Zod, and verification workflows
-
-15. [Chapter 15: Putting It All Together](./15-putting-it-together.md)
-    - A complete project setup from scratch
-    - Combining all the tools from previous chapters
-    - Project structure conventions and best practices
-
-16. [Chapter 16: Using This Setup for JavaScript Projects](./16-javascript.md)
-    - How much of this applies to plain JavaScript
-    - JSDoc as a lightweight alternative to TypeScript
-    - When to use JS vs TS
-
-17. [Chapter 17: AWS Lambda with TypeScript](./17-aws-lambda.md)
-    - Serverless TypeScript with AWS Lambda and `@types/aws-lambda`
-    - AWS SAM for local development, testing, and deployment
-    - Linting with Oxlint and formatting with oxfmt in a Lambda project
+1. [Chapter 1: Introduction](./01-introduction.md) — TypeScript vs JavaScript, `tsconfig.json`, and the modern ecosystem
+2. [Chapter 2: Node.js Environments](./02-node-environments.md) — LTS releases and managing Node versions with Volta, mise, and nvm
+3. [Chapter 3: Package Management & package.json](./03-package-management.md) — `package.json`, pnpm vs npm, and why lock files save friendships
+4. [Chapter 4: Version Control](./04-version-control.md) — Git essentials, `.gitignore`, and GitHub Flow
+5. [Chapter 5: Linting](./05-linting.md) — Catching bugs automatically with ESLint, Oxlint, and Biome
+6. [Chapter 6: Code Formatting](./06-code-formatting.md) — Ending tabs-vs-spaces arguments with Prettier, Biome, and oxfmt
+7. [Chapter 7: Unit Testing with Vitest](./07-testing.md) — Writing fast unit tests and enforcing coverage thresholds
+8. [Chapter 8: Building with Vite](./08-vite.md) — Instant dev servers, HMR, and production bundling
+9. [Chapter 9: REST APIs with Fastify](./09-fastify.md) — Building fast, type-safe backend APIs with TypeBox validation
+10. [Chapter 10: Full-Stack with TanStack Start](./10-tanstack-start.md) — End-to-end type safety with file-based routing and server functions
+11. [Chapter 11: Database Libraries](./11-databases.md) — Drizzle ORM, Prisma, Kysely, and DynamoDB
+12. [Chapter 12: Structured Logging](./12-logging.md) — Graduating from `console.log` to Pino and Winston
+13. [Chapter 13: CI/CD](./13-ci-cd.md) — Automating quality checks with GitHub Actions
+14. [Chapter 14: LLMs and AI-Powered Development](./14-llms.md) — AI coding agents (`claude`, `agy`, Cursor, Grok Build, Copilot CLI, Codex) and Spec-Driven Development (EGM, OpenSpec)
+15. [Chapter 15: Putting It All Together](./15-putting-it-together.md) — Full project walkthrough from spec to CI, including Modern Web Guidance
+16. [Chapter 16: Using This Setup for JavaScript Projects](./16-javascript.md) — JSDoc, `@ts-check`, and incremental migration
+17. [Chapter 17: AWS Lambda with TypeScript](./17-aws-lambda.md) — Serverless functions with AWS SAM, Oxlint, and DynamoDB
 
 ## Prerequisites
 
-- **Basic coding knowledge** — you've written code before in some language, ideally JavaScript or TypeScript
-- **A computer** — macOS, Linux, or Windows (most examples work on all three; differences are noted)
-- **Willingness to use the terminal** — many tools in this guide are command-line tools; no prior terminal expertise is required, but you should be comfortable opening one
+- **Basic coding knowledge** — you've written code in JavaScript, TypeScript, Python, Java, or C++
+- **A computer** — macOS, Linux, or Windows
+- **A terminal** — you don't need to be a bash wizard, just willing to paste commands
 
-You do **not** need any specific software installed before starting — Chapter 1 and Chapter 2 will get your environment set up from scratch.
-
-## Getting Started
-
-Ready? Start with [Chapter 1: Introduction](./01-introduction.md).
-
-## Contributing
-
-Found a mistake, outdated information, or want to suggest an improvement? Contributions are welcome. Please open an issue or pull request on the project repository.
-
-When contributing:
-- Keep the tone friendly and beginner-accessible
-- Test any code examples you add or change
-- Follow the existing structure and style conventions
+Ready? Dive into [Chapter 1: Introduction](./01-introduction.md).
 
 ## License
 
-This guide is released under the [MIT License](./LICENSE). You are free to use, share, and adapt it — just include attribution.
+Released under the [MIT License](./LICENSE).
