@@ -110,6 +110,33 @@ curl -X POST http://localhost:3000/users \
 
 ---
 
+## Calling APIs from TypeScript: HTTP Clients
+
+Your frontend, CLI, or another service also needs to *call* HTTP APIs. You rarely need a full library for that:
+
+- **Built-in `fetch`** (Node 18+, stable in Node 21+): the WHATWG standard API you already know from the browser. Zero dependencies, works with `async/await`, but it **does not reject on 4xx/5xx** — check `response.ok` yourself.
+- **[undici](https://undici.nodejs.org)** ([GitHub](https://github.com/nodejs/undici)): the high-performance HTTP client that powers Node's global `fetch`. Install it directly when you need connection pooling, custom agents/proxies, or lower overhead in a busy service.
+- **[axios](https://axios-http.com)** ([GitHub](https://github.com/axios/axios)): the most popular third-party client, with interceptors, automatic JSON parsing, and a familiar browser/Node API. Convenient, but it is an extra dependency when `fetch` already ships with Node.
+
+```typescript
+// Built-in fetch: nothing to install
+const res = await fetch('https://api.example.com/users', {
+  signal: AbortSignal.timeout(5_000),
+});
+if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+const users = (await res.json()) as User[];
+
+// undici: `pnpm add undici` for connection pooling and lower-overhead requests
+import { request } from 'undici';
+const { statusCode, body } = await request('https://api.example.com/users');
+if (statusCode >= 400) throw new Error(`HTTP ${statusCode}`);
+const users = (await body.json()) as User[];
+```
+
+**Rule of thumb:** start with `fetch`; reach for `undici` when you need pooling, performance tuning, or proxy control; choose `axios` when you want interceptors or are maintaining an existing axios codebase.
+
+---
+
 ## Essential Plugins & Recommendations
 
 Fastify keeps its core lean and adds features via official plugins:

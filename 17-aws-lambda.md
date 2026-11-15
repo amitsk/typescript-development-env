@@ -31,6 +31,39 @@ pnpm add -D typescript @types/node @types/aws-lambda esbuild oxlint @biomejs/bio
 
 ---
 
+## Spec First, Then Code
+
+Serverless bugs are expensive: you cannot SSH into a Lambda to poke around, and a wrong DynamoDB key or missing IAM permission may only fail in the cloud. Use the **Spec-Driven Development (SDD)** workflow from [Chapter 14](./14-llms.md) — and the bootstrap spec pattern from [Chapter 15](./15-putting-it-together.md) — before writing handlers. A useful Lambda spec covers:
+
+- **Trigger & contract:** API Gateway HTTP API event, request body/query/path schema, status codes, and error shape.
+- **Typed inputs/outputs:** `APIGatewayProxyEventV2`, `APIGatewayProxyResultV2`, `SQSEvent`, and friends from `@types/aws-lambda`.
+- **Data & access patterns:** DynamoDB table, `PK`/`SK` layout, indexes, and required IAM permissions.
+- **Retries & idempotency:** what happens when the same event is delivered twice.
+- **Limits:** timeout, memory, payload size, and concurrency.
+- **Verification:** `pnpm typecheck`, Vitest handler tests, `sam local start-api` smoke test, and `sam deploy` to a sandbox stack.
+
+````markdown
+# Spec 001: Create User Endpoint
+
+## Goal
+Handle `POST /users` and return the created user.
+
+## Rules & Edge Cases
+- Missing `name` or `email` returns `400` with `{ "error": "..." }`.
+- Valid input returns `201` with `{ id: <uuid>, name, email }`.
+- Duplicate emails return `409` (or explicitly mark deduplication out of scope).
+- Handler must finish well under the configured 30-second timeout.
+
+## Verification
+- [ ] `pnpm typecheck` passes
+- [ ] Vitest tests cover `201`, `400`, and `409`
+- [ ] `sam local start-api` returns the expected responses
+````
+
+Then implement against the spec plus an `AGENTS.md` file ([Chapter 15](./15-putting-it-together.md)), and optionally run the EGM Goldfish review from [Chapter 14](./14-llms.md) so a stateless agent flags missing edge cases before you deploy.
+
+---
+
 ## Writing a Typed Lambda Handler
 
 Create `src/handlers/create-user.ts`. Using `APIGatewayProxyEventV2` and `APIGatewayProxyResultV2` guarantees your request and response shapes match API Gateway HTTP APIs:

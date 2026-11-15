@@ -33,7 +33,7 @@ flowchart TD
     end
 
     subgraph Apps["3. Backend, Full-Stack & Persistence"]
-        C8 --> C9["Ch 9: REST APIs (Fastify)"]
+        C8 --> C9["Ch 9: REST APIs (Fastify + HTTP clients)"]
         C8 --> C10["Ch 10: Full-Stack (TanStack Start)"]
         C9 --> C11["Ch 11: Databases (Drizzle / Prisma / Kysely / DynamoDB)"]
         C10 --> C11
@@ -43,7 +43,7 @@ flowchart TD
     subgraph Workflows["4. Automation, AI & Capstone Tracks"]
         C12 --> C13["Ch 13: CI/CD (GitHub Actions)"]
         C13 --> C14["Ch 14: AI Agents & Spec-Driven Dev (EGM / OpenSpec)"]
-        C14 --> C15["Ch 15: Putting It All Together"]
+        C14 --> C15["Ch 15: Putting It All Together (mise + AGENTS.md)"]
         C15 --> C16["Ch 16: Plain JavaScript & JSDoc"]
         C15 --> C17["Ch 17: Serverless AWS Lambda & SAM"]
     end
@@ -59,15 +59,15 @@ flowchart TD
 6. [Chapter 6: Code Formatting](./06-code-formatting.md) — Ending tabs-vs-spaces arguments with Prettier, Biome, and oxfmt
 7. [Chapter 7: Unit Testing with Vitest](./07-testing.md) — Writing fast unit tests and enforcing coverage thresholds
 8. [Chapter 8: Building with Vite](./08-vite.md) — Instant dev servers, HMR, and production bundling
-9. [Chapter 9: REST APIs with Fastify](./09-fastify.md) — Building fast, type-safe backend APIs with TypeBox validation
+9. [Chapter 9: REST APIs with Fastify](./09-fastify.md) — Building fast, type-safe backend APIs with TypeBox validation, plus calling APIs with `fetch`, undici, and axios
 10. [Chapter 10: Full-Stack with TanStack Start](./10-tanstack-start.md) — End-to-end type safety with file-based routing and server functions
 11. [Chapter 11: Database Libraries](./11-databases.md) — Drizzle ORM, Prisma, Kysely, and DynamoDB
 12. [Chapter 12: Structured Logging](./12-logging.md) — Graduating from `console.log` to Pino and Winston
 13. [Chapter 13: CI/CD](./13-ci-cd.md) — Automating quality checks with GitHub Actions
 14. [Chapter 14: LLMs and AI-Powered Development](./14-llms.md) — AI coding agents (`claude`, `agy`, Cursor, Grok Build, Copilot CLI, Codex) and Spec-Driven Development (EGM, OpenSpec)
-15. [Chapter 15: Putting It All Together](./15-putting-it-together.md) — Full project walkthrough from spec to CI, including Modern Web Guidance
+15. [Chapter 15: Putting It All Together](./15-putting-it-together.md) — Bootstrap-spec-driven project walkthrough with mise, `AGENTS.md`, Biome, Vitest, and CI
 16. [Chapter 16: Using This Setup for JavaScript Projects](./16-javascript.md) — JSDoc, `@ts-check`, and incremental migration
-17. [Chapter 17: AWS Lambda with TypeScript](./17-aws-lambda.md) — Serverless functions with AWS SAM, Oxlint, and DynamoDB
+17. [Chapter 17: AWS Lambda with TypeScript](./17-aws-lambda.md) — Serverless functions with AWS SAM, Oxlint, DynamoDB, and Spec-Driven Development
 
 ## Prerequisites
 
