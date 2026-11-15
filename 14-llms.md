@@ -6,15 +6,15 @@
 
 A few years ago, "AI-assisted coding" meant tab-completing a `for` loop. Today, autonomous coding agents can read your entire repository, write a Fastify route, generate Vitest tests, and run `tsc --noEmit` to verify their own work while you sip your coffee.
 
-There's just one catch: an AI agent can also generate 1,500 lines of spaghetti code in 12 seconds if you don't give it clear boundaries. This chapter covers the modern AI coding toolkit and **Spec-Driven Development (SDD)** — the workflow that keeps you in the driver's seat.
+There's just one catch: an AI agent can also generate 1,500 lines of spaghetti code in 12 seconds if you don't give it clear boundaries. This chapter covers the modern AI coding toolkit, **Spec-Driven Development (SDD)**, and a clear path so you know what to use at each stage of your projects.
 
 ```mermaid
 flowchart LR
-    Dev["Developer Intent / Spec"] --> Agent["AI Coding Agent"]
+    Dev["Developer Intent + Spec"] --> Agent["AI Coding Agent"]
     subgraph Workspace["TypeScript Project Workspace"]
-        Agent --> Read["Read Codebase & tsconfig.json"]
+        Agent --> Read["Read AGENTS.md, Spec & tsconfig.json"]
         Read --> Edit["Generate / Edit .ts Files"]
-        Edit --> Verify["Run tsc, Linter & Vitest"]
+        Edit --> Verify["Run tsc, Biome & Vitest"]
     end
     Verify -- "Errors / Failing Tests" --> Agent
     Verify -- "All Checks Pass" --> PR["Human Review & Commit"]
@@ -24,103 +24,104 @@ flowchart LR
 
 ## The AI Coding Toolkit
 
-Today's TypeScript developers choose between AI-native editors and terminal-based coding agents — including [Claude Code](https://github.com/anthropics/claude-code), [Google Antigravity (`agy`)](https://antigravity.google/docs), [Grok Build](https://github.com/xai-org/grok-build), [Cursor](https://cursor.com), [GitHub Copilot CLI](https://github.com/github/copilot-cli), and [OpenAI Codex CLI](https://github.com/openai/codex).
+AI tools evolve fast, so always check their official docs for current setup and pricing. **You only need one editor integration or one terminal agent to start:**
 
-```mermaid
-flowchart TD
-    Tools["AI Development Tools"] --> IDEs["AI-First IDEs & Editor Extensions"]
-    Tools --> CLIs["Terminal & Autonomous Agent CLIs"]
+### 1. AI-First Editors & IDE Extensions
+- **[GitHub Copilot](https://github.com/features/copilot)** ([docs](https://docs.github.com/en/copilot)): The classic AI pair programmer for VSCode, JetBrains, and Neovim. Great for inline completions, multi-file agent edits, and PR reviews — and **100% free for verified students** via the [GitHub Student Developer Pack](https://education.github.com/pack).
+- **[Cursor](https://cursor.com)** ([docs](https://cursor.com/docs)): A fork of VSCode with codebase-indexed chat, inline diff edits (`Cmd/Ctrl+K`), and multi-file agent mode built into the editor.
 
-    IDEs --> Cursor["Cursor (cursor.com)"]
-    IDEs --> AGY_IDE["Google Antigravity IDE (antigravity.google)"]
-    IDEs --> Copilot["GitHub Copilot (github.com/features/copilot)"]
-
-    CLIs --> Claude["Claude Code (github.com/anthropics/claude-code)"]
-    CLIs --> AGY_CLI["Antigravity CLI - agy (antigravity.google/docs)"]
-    CLIs --> Codex["OpenAI Codex CLI (github.com/openai/codex)"]
-    CLIs --> Grok["Grok Build (github.com/xai-org/grok-build)"]
-    CLIs --> CopilotCLI["GitHub Copilot CLI (github.com/github/copilot-cli)"]
-```
-
-### AI-First Editors & Extensions
-
-- **[Cursor](https://cursor.com)**: A fork of VSCode with AI baked into every shortcut. Use `Cmd/Ctrl+K` for inline edits, `Tab` for multi-line predictions across files, and Agent mode to let it edit files and run your type checker automatically.
-- **[GitHub Copilot](https://github.com/features/copilot)**: The classic AI pair programmer for VSCode, JetBrains, and Neovim. Great for inline ghost-text completions, PR summaries, and repetitive test cases (plus it's **free for verified students** via GitHub Education!).
-
-### Terminal & Multi-Agent Harnesses
-
-- **[Claude Code](https://github.com/anthropics/claude-code)**: Anthropic's terminal-native coding agent (`npm install -g @anthropic-ai/claude-code`, then run `claude`). It reads your repo, runs Vitest and `tsc`, spawns subagents, and commits changes right from your shell.
-- **[Google Antigravity (`agy`)](https://antigravity.google/docs)**: Google's agentic development platform spanning the `agy` CLI, Antigravity IDE, and desktop app. Supports sandboxed command execution, multi-agent swarms (`/teamwork`), interactive spec grilling (`/grill-me`, `/plan`), and extensible skills and MCP servers.
-- **[OpenAI Codex CLI](https://github.com/openai/codex)**: OpenAI's lightweight open-source terminal agent (`npm install -g @openai/codex`) that inspects your repo and runs commands in a local sandbox.
-- **[Grok Build](https://github.com/xai-org/grok-build)** ([x.ai/cli](https://x.ai/cli)): xAI's fast terminal-based coding agent and TUI powered by Grok models.
-- **[GitHub Copilot CLI](https://github.com/github/copilot-cli)** ([docs](https://docs.github.com/en/copilot/how-copilot-is-used/using-copilot-cli)): Brings GitHub Copilot to your terminal to explain shell flags, write bash/git commands, and run agentic tasks.
-
-### Recommendations
-
-- **If you want an all-in-one visual editor:** Start with **Cursor** or **VSCode + GitHub Copilot** (especially if you have free student access).
-- **If you love the terminal or want autonomous multi-file execution:** Pair your editor with **Claude Code**, **Google Antigravity (`agy`)**, **Codex CLI**, or **Grok Build**.
+### 2. Terminal & Autonomous Coding Agents
+- **[Claude Code](https://github.com/anthropics/claude-code)** ([docs](https://docs.anthropic.com/en/docs/claude-code)): Anthropic's terminal coding agent (`curl -fsSL https://claude.ai/install.sh | bash` or `npm install -g @anthropic-ai/claude-code`, then run `claude`). Reads your repo, edits files, runs `pnpm typecheck` and `vitest`, and iterates until checks pass.
+- **[Google Antigravity (`agy`)](https://antigravity.google/docs)**: Google's agentic development platform spanning the `agy` CLI and Antigravity IDE, with sandboxed execution, subagents, skills, and MCP servers.
+- **[OpenAI Codex CLI](https://github.com/openai/codex)**: OpenAI's open-source terminal agent (`npm install -g @openai/codex`) that inspects your repo and runs verification commands locally.
+- **[GitHub Copilot CLI](https://github.com/github/copilot-cli)**: Brings GitHub Copilot's agent workflows directly into your terminal.
+- **[Grok Build](https://github.com/xai-org/grok-build)** ([x.ai/cli](https://x.ai/cli)): xAI's terminal coding agent powered by Grok models.
 
 ---
 
-## Spec-Driven Development (SDD)
+## Spec-Driven Development (SDD): Why Chat History Isn't Enough
 
 Typing *"build me a user auth system"* into an AI prompt and hitting Enter is called **vibe coding**. It feels magical for 10 minutes — and then you spend 4 hours debugging hallucinated database columns and inconsistent error types.
 
-**Spec-Driven Development (SDD)** fixes this by treating a short **Markdown specification** as the contract between you and the AI *before* any implementation code is written. Fixing a bad assumption in a 40-line spec takes 20 seconds; fixing it across 10 generated TypeScript files takes all afternoon.
+Why does vibe coding break down? Because **every new AI session starts with zero memory of your project**, and during long back-and-forth chats the context window fills up and drifts.
+
+**Spec-Driven Development (SDD)** fixes this by moving your project rules and feature designs out of ephemeral chat history and into version-controlled Markdown files:
+
+1. **Repo Memory (`AGENTS.md` / `CLAUDE.md`)**: A short 15-line file in your repo root listing your stack (Node 24, pnpm, Biome, Vitest), commands (`pnpm ci`), and rules (`noExplicitAny`).
+2. **Feature Specifications (`specs/` or `openspec/`)**: A short Markdown contract defining the goal, TypeScript types/schemas, edge cases, and acceptance criteria *before* any `.ts` implementation file is written.
+3. **Deterministic Verification**: Clear the noisy chat (`/clear`) after drafting the spec, let the agent implement against the written spec, and let `tsc --noEmit`, Biome, and Vitest act as the referee.
 
 ```mermaid
 flowchart LR
-    subgraph Vibe["Vibe Coding (Unstructured)"]
-        V1["Vague 1-Line Prompt"] --> V2["AI Guesses Architecture"]
-        V2 --> V3["2 Hours Debugging Hallucinations"]
+    subgraph Vibe["Vibe Coding (Unstructured Chat)"]
+        V1["Vague 1-Line Prompt"] --> V2["Agent Guesses Types & Edge Cases"]
+        V2 --> V3["Hours Debugging Drift"]
     end
 
     subgraph SDD["Spec-Driven Development (Structured)"]
-        S1["Brainstorm & Explore"] --> S2["Draft Explicit Spec (.md)"]
-        S2 --> S3["Adversarial & Human Review"]
-        S3 --> S4["Agent Implements & Runs Vitest"]
+        S1["1. Propose Spec (.md)"] --> S2["2. Review Types & Edge Cases"]
+        S2 --> S3["3. Implement in Fresh Session"]
+        S3 --> S4["4. Verify (tsc + Biome + Vitest)"]
     end
 ```
 
-### The Elephant-Goldfish Model (EGM)
+---
 
-The **[Elephant-Goldfish Model (EGM)](https://egm.dev/)** is an open-source framework (created by Dave Rensin) that uses a clever two-part memory metaphor to keep AI agents honest:
+### The SDD Ecosystem: OpenSpec, Spec Kit, EGM & Agent Skills
 
-1. **The Elephant (Long Context & Planning)**: A deep-context session that remembers all your brainstorming notes, trade-offs, and architecture. You work with the Elephant to draft the spec (`/egm-brainstorm`, `/egm-draft`).
-2. **The Goldfish (Stateless Adversarial Review)**: If you ask the Elephant to review its own spec, it suffers from confirmation bias — it remembers what you *meant*, not what it *wrote*. Instead, EGM spawns brand-new, stateless **Goldfish sub-agents** (`/egm-review`) with **zero memory** of your conversation. They read the spec cold and ruthlessly flag ambiguities, missing edge cases, and security holes before a single `.ts` file is touched.
+You can practice SDD with plain Markdown files in a `specs/` folder, or use open-source toolkits that standardize the workflow across your coding agents:
 
-```mermaid
-flowchart TD
-    Human["Developer + Elephant Agent (Deep Context)"] --> Brainstorm["1. Brainstorm (/egm-brainstorm)"]
-    Brainstorm --> Draft["2. Draft Spec (/egm-draft)"]
-    Draft --> Spec["Spec Document (spec.md)"]
+#### 1. OpenSpec — Lightweight SDD for New & Existing TypeScript Projects
+**[OpenSpec](https://openspec.dev/)** ([`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec)) is a lightweight, open-source SDD framework that works across 30+ AI coding tools (Claude Code, Cursor, GitHub Copilot, `agy`, Codex, and more). It shines on both brand-new projects and existing ("brownfield") codebases by separating **current system specs** from **isolated change proposals**:
 
-    subgraph ColdReview["3. Stateless Cold Review (/egm-review)"]
-        Spec --> GF1["Goldfish 1 (Types & Architecture)"]
-        Spec --> GF2["Goldfish 2 (Edge Cases & Security)"]
-    end
-
-    GF1 --> Feedback["Ambiguity & Gap Report"]
-    GF2 --> Feedback
-    Feedback -- "Refine" --> Draft
-    Feedback -- "Approved" --> Implement["4. Fresh Builder Agent Writes Code"]
+```text
+openspec/
+├── config.yaml                  # Project stack & conventions
+├── specs/                       # Living source of truth (how the app works today)
+└── changes/
+    └── add-reset-token/         # Isolated folder for one proposed feature
+        ├── proposal.md          # Why we're making this change & scope boundaries
+        ├── specs/               # Delta specs (ADDED / MODIFIED / REMOVED requirements)
+        ├── design.md            # TypeScript types, schemas & architecture notes
+        └── tasks.md             # Step-by-step implementation checklist
 ```
 
-### OpenSpec
-
-**[OpenSpec](https://openspec.dev/)** is another popular, lightweight open-source SDD framework that stores specs right in your repo (`openspec/`) and works across Claude Code, Cursor, `agy`, Copilot, and Codex. Every feature follows a clean 5-step loop:
-
-```mermaid
-flowchart LR
-    Explore["1. Explore"] --> Propose["2. Propose (Draft Spec)"]
-    Propose --> Review["3. Review (Human Gate)"]
-    Review --> Apply["4. Apply (Build Task-by-Task)"]
-    Apply --> Archive["5. Archive (Update Living Specs)"]
+**Quick setup & commands:**
+```bash
+npm install -g @fission-ai/openspec@latest
+cd my-ts-app
+openspec init
 ```
+Inside your AI agent's chat, you drive each feature with slash commands:
+- **`/opsx:propose <feature>`** *(or `/opsx:explore` first)* — Drafts `proposal.md`, delta `specs/`, `design.md`, and `tasks.md` for your review before touching `src/`.
+- **`/opsx:apply`** — Executes the checklist in `tasks.md` step by step.
+- **`/opsx:archive`** — Merges the completed delta specs into `openspec/specs/` once tests pass.
+
+#### 2. Pointers to Spec Kit, EGM & Addy Osmani's `agent-skills`
+
+Three other open-source projects pair well with OpenSpec as your projects grow:
+
+- **[GitHub Spec Kit (`spec-kit`)](https://github.com/github/spec-kit)** ([speckit.org](https://speckit.org/)): GitHub's open-source SDD toolkit that guides greenfield apps and features through a structured pipeline (`/speckit.constitution` → `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`).
+- **[EGM — Elephant–Goldfish Model](https://egm.dev/)**: An open-source SDD methodology and plugin suite that separates deep-context spec drafting from stateless, zero-context reviewer subagents (`/egm-review`) that cold-audit specs for blind spots before coding begins.
+- **[Addy Osmani's `agent-skills`](https://github.com/addyosmani/agent-skills)** ([agenticskills.io](https://agenticskills.io/), [blog](https://addyosmani.com/)): While **[OpenSpec](https://github.com/Fission-AI/OpenSpec)**, **[Spec Kit](https://github.com/github/spec-kit)**, and **[EGM](https://egm.dev/)** define *what* to build and manage your specification artifacts, Addy Osmani's `agent-skills` complement them by teaching your agent *how* to execute each engineering step like a senior developer — providing portable `SKILL.md` playbooks and slash commands (`/spec`, `/plan`, `/build`, `/test`, `/review`) for test-first implementation, code simplification, security hardening, and web performance.
+
+---
+
+## Student Roadmap: Which Setup Should You Use?
+
+Don't install five frameworks just to finish a homework assignment! Follow this progression based on what you're building:
+
+| Your Stage | Recommended Setup | Workflow |
+|------------|-------------------|----------|
+| **1. Class Assignments & Small Scripts** *(Start here!)* | **VSCode + GitHub Copilot** (free via [Student Pack](https://education.github.com/pack)) or **Claude Code** / **Cursor** + a 15-line `AGENTS.md` | Write specific prompts with explicit TypeScript types, ask the AI to explain unfamiliar syntax, and run `pnpm typecheck && pnpm test` yourself. |
+| **2. Hackathons, Group Projects & Capstones** | Add a **`specs/` folder** *or* run **`openspec init`** ([OpenSpec](https://openspec.dev/)) | Draft a 1-page spec (`specs/<feature>.spec.md` or `/opsx:propose`) so teammates and agents agree on types and edge cases before coding. |
+| **3. Internships & Production Codebases** | **[OpenSpec](https://github.com/Fission-AI/OpenSpec)** or **[Spec Kit](https://github.com/github/spec-kit)** + **[Addy Osmani's `agent-skills`](https://github.com/addyosmani/agent-skills)** + **[EGM](https://egm.dev/)** | Use OpenSpec/Spec Kit for change specs, `agent-skills` (and [Modern Web Guidance](https://github.com/googlechrome/modern-web-guidance)) for senior implementation habits, and EGM for cold spec reviews. |
+
+---
 
 ### Example Specification (`specs/001-reset-token.spec.md`)
 
-Here is what a crisp, junior-friendly TypeScript spec looks like in practice:
+Whether you write specs by hand in `specs/` or generate them with `/opsx:propose`, here is what a crisp TypeScript spec looks like:
 
 ````markdown
 # Spec 001: Single-Use Password Reset Token Service
@@ -149,7 +150,7 @@ export type VerifyTokenResult =
 4. Empty or non-hex inputs return `{ ok: false, reason: 'INVALID_TOKEN' }` without throwing.
 
 ## 4. Acceptance Criteria
-- [ ] `pnpm typecheck` and `pnpm check:ci` pass with 0 errors
+- [ ] `pnpm typecheck` and `pnpm check` pass with 0 errors
 - [ ] `src/auth/reset-token.test.ts` tests happy path, replay (`ALREADY_USED`), expiry (`EXPIRED_TOKEN`), and bad input (`INVALID_TOKEN`)
 ````
 
@@ -161,9 +162,9 @@ export type VerifyTokenResult =
 
 1. **Review the types and tests first**: If an agent sneaks `as any` into your code to silence `tsc`, reject it. Strong types + strict linter rules (`noExplicitAny`) keep agents honest.
 2. **Keep an `AGENTS.md` / `CLAUDE.md` file in your repo root**: Give agents a 15-line cheat sheet listing your stack (Node 24, pnpm, Biome, Vitest) and exact verification commands.
-3. **Always run the check suite before committing**:
+3. **Always run the check suite yourself before committing**:
    ```bash
-   pnpm typecheck && pnpm lint && pnpm test:run
+   pnpm typecheck && pnpm check && pnpm test:run
    ```
 
 *(Fun fact: This guide itself was drafted from [prompts.md](./prompts.md) using [Claude Code](https://github.com/anthropics/claude-code) and refined with [Google Antigravity (`agy`)](https://antigravity.google/docs)!)*
@@ -172,6 +173,6 @@ export type VerifyTokenResult =
 
 ## What's Next?
 
-In [Chapter 15: Putting It All Together](./15-putting-it-together.md), we'll build a complete TypeScript project from scratch — starting with a spec, wiring up modern web guidance, and pushing to a live GitHub Actions pipeline.
+In [Chapter 15: Putting It All Together](./15-putting-it-together.md), we'll assemble a clean, zero-bloat TypeScript project from scratch — wiring up `tsconfig.json`, Biome, Vitest, GitHub Actions CI, and optional AI guardrails.
 
 [← Previous: CI/CD](./13-ci-cd.md) | [Back to README](./README.md) | [Next: Putting It All Together →](./15-putting-it-together.md)

@@ -60,7 +60,7 @@ Handle `POST /users` and return the created user.
 - [ ] `sam local start-api` returns the expected responses
 ````
 
-Then implement against the spec plus an `AGENTS.md` file ([Chapter 15](./15-putting-it-together.md)), and optionally run the EGM Goldfish review from [Chapter 14](./14-llms.md) so a stateless agent flags missing edge cases before you deploy.
+Then implement against the spec plus an `AGENTS.md` file ([Chapter 15](./15-putting-it-together.md)), and verify with `pnpm typecheck`, Vitest, and `sam local start-api` before deploying.
 
 ---
 

@@ -75,7 +75,7 @@ Keep these handy as you build:
 - **Language & Quality**: [TypeScript](https://www.typescriptlang.org/docs/) · [Biome](https://biomejs.dev) · [ESLint](https://eslint.org) · [Prettier](https://prettier.io) · [Oxc (Oxlint / oxfmt)](https://oxc.rs)
 - **Testing, Build & Web**: [Vitest](https://vitest.dev) · [Vite](https://vite.dev) · [Modern Web Guidance](https://github.com/googlechrome/modern-web-guidance)
 - **Backend, Full-Stack & Data**: [Fastify](https://fastify.dev) · [TanStack Start](https://tanstack.com/start) · [Drizzle](https://orm.drizzle.team) · [Prisma](https://www.prisma.io/docs) · [Kysely](https://kysely.dev) · [Pino](https://getpino.io)
-- **AI Agents & Spec-Driven Dev**: [Cursor](https://cursor.com) · [Claude Code](https://github.com/anthropics/claude-code) · [Google Antigravity (`agy`)](https://antigravity.google/docs) · [Grok Build](https://github.com/xai-org/grok-build) · [GitHub Copilot CLI](https://github.com/github/copilot-cli) · [OpenAI Codex CLI](https://github.com/openai/codex) · [Elephant-Goldfish Model (EGM)](https://egm.dev/) · [OpenSpec](https://openspec.dev/)
+- **AI Agents & Spec-Driven Dev**: [Cursor](https://cursor.com) · [Claude Code](https://github.com/anthropics/claude-code) · [Google Antigravity (`agy`)](https://antigravity.google/docs) · [Grok Build](https://github.com/xai-org/grok-build) · [GitHub Copilot CLI](https://github.com/github/copilot-cli) · [OpenAI Codex CLI](https://github.com/openai/codex) · [OpenSpec](https://openspec.dev/) · [Spec Kit](https://github.com/github/spec-kit) · [Addy Osmani's `agent-skills`](https://github.com/addyosmani/agent-skills) · [EGM](https://egm.dev/)
 
 ---
 
