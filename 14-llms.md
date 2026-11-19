@@ -47,7 +47,7 @@ Why does vibe coding break down? Because **every new AI session starts with zero
 
 **Spec-Driven Development (SDD)** fixes this by moving your project rules and feature designs out of ephemeral chat history and into version-controlled Markdown files:
 
-1. **Repo Memory (`AGENTS.md` / `CLAUDE.md`)**: A short 15-line file in your repo root listing your stack (Node 24, pnpm, Biome, Vitest), commands (`pnpm ci`), and rules (`noExplicitAny`).
+1. **Repo Memory ([`AGENTS.md`](https://agents.md/) / `CLAUDE.md`)**: [**`AGENTS.md`**](https://agents.md/) is the open, tool-agnostic "README for AI agents" automatically loaded by Codex, Cursor, GitHub Copilot, Google Antigravity, and OpenCode. Keep a short 15-line `AGENTS.md` in your repo root listing your stack (Node 24, pnpm, Biome, Vitest), exact commands (`pnpm ci`), and rules (`noExplicitAny`), and point `CLAUDE.md` to it (`See AGENTS.md and follow it.`) so you only maintain one canonical file across tools.
 2. **Feature Specifications (`specs/` or `openspec/`)**: A short Markdown contract defining the goal, TypeScript types/schemas, edge cases, and acceptance criteria *before* any `.ts` implementation file is written.
 3. **Deterministic Verification**: Clear the noisy chat (`/clear`) after drafting the spec, let the agent implement against the written spec, and let `tsc --noEmit`, Biome, and Vitest act as the referee.
 
